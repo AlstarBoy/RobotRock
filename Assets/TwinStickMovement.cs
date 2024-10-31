@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -64,7 +66,32 @@ public class TwinStickMovement : MonoBehaviour
         if (isGamepad)
         {
             //Rotate our player
+            if (Math.Abs(aim.x) > controllerDeadzone || Mathf.Abs(aim.y) > controllerDeadzone)
+            {
+                Vector3 playerDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
+                if (playerDirection.sqrMagnitude > 0.0f)
+                {
+                    Quaternion newrotation = Quaternion.LookRotation(playerDirection, Vector3.up);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, newrotation, gamepadRotateSmoothing * Time.deltaTime);
+                }
+
+            }
         }
+        else
+        {
+            Ray ray = Camera.main.ScreenPointToRay(aim);
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero); float rayDistance;
+            if (groundPlane.Raycast(ray, out rayDistance))
+            {
+                Vector3 point = ray.GetPoint(rayDistance); LookAt(point);
+            }
+        }
+    }
+
+    private void LookAt(Vector3 lookPoint)
+    {
+        Vector3 heightCorrectedPoint = new Vector3(lookPoint.x, transform.position.y, lookPoint.z);
+        transform.LookAt(heightCorrectedPoint);
     }
 
     public void onDeviceChange(PlayerInput pi)
