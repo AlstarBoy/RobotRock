@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +26,8 @@ public class TwinStickMovement : MonoBehaviour
 
     private PlayerControls playerControls;
     private PlayerInput playerInput;
+
+    private Vector3 sphereTest;
 
     private void Awake()
     {
@@ -55,7 +58,7 @@ public class TwinStickMovement : MonoBehaviour
     }
     void HandleMovement()
     {
-        Vector3 move = new Vector3(movement.x, 8, movement.y);
+        Vector3 move = new Vector3(movement.x, 0, movement.y);
         controller.Move(move * Time.deltaTime * playerSpeed);
 
         playerVelocity.y += gravityValue * Time.deltaTime;
@@ -65,6 +68,7 @@ public class TwinStickMovement : MonoBehaviour
     {
         if (isGamepad)
         {
+            UnityEngine.Debug.Log("GamePad");
             //Rotate our player
             if (Math.Abs(aim.x) > controllerDeadzone || Mathf.Abs(aim.y) > controllerDeadzone)
             {
@@ -79,11 +83,20 @@ public class TwinStickMovement : MonoBehaviour
         }
         else
         {
+            UnityEngine.Debug.Log("Mouse");
             Ray ray = Camera.main.ScreenPointToRay(aim);
-            Plane groundPlane = new Plane(Vector3.up, Vector3.zero); float rayDistance;
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero); 
+            float rayDistance;
+
+            //UnityEngine.Debug.DrawRay(transform.position, forward, Color.green);
+
+
             if (groundPlane.Raycast(ray, out rayDistance))
             {
-                Vector3 point = ray.GetPoint(rayDistance); LookAt(point);
+                UnityEngine.Debug.Log("CAST HIT");
+                Vector3 point = ray.GetPoint(rayDistance); 
+                LookAt(point);
+                sphereTest = point;
             }
         }
     }
@@ -92,6 +105,12 @@ public class TwinStickMovement : MonoBehaviour
     {
         Vector3 heightCorrectedPoint = new Vector3(lookPoint.x, transform.position.y, lookPoint.z);
         transform.LookAt(heightCorrectedPoint);
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(sphereTest, 1);
     }
 
     public void onDeviceChange(PlayerInput pi)
