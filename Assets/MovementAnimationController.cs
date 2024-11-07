@@ -11,6 +11,7 @@ public class MovementAnimationController : MonoBehaviour
 {
     public Animator animator;
     private TwinStickMovement tsm;
+    private float yRotation;
 
     private void Awake()
     {
@@ -29,7 +30,23 @@ public class MovementAnimationController : MonoBehaviour
 
     void HandleMovementDirection()
     {
+        yRotation = this.gameObject.transform.rotation.y;
+        if (yRotation > 45)
+        {
 
+        }
+        if (yRotation > 45)
+        {
+
+        }
+        if (yRotation > 45)
+        {
+
+        }
+        if (yRotation > 45)
+        {
+
+        }
 
     }
 }
