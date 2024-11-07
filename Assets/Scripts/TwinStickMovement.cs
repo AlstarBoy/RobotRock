@@ -19,7 +19,7 @@ public class TwinStickMovement : MonoBehaviour
 
     private CharacterController controller;
 
-    private Vector2 movement;
+    public Vector2 movement;
     private Vector2 aim;
 
     private Vector3 playerVelocity;

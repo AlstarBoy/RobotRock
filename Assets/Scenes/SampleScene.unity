@@ -681,6 +681,7 @@ GameObject:
   - component: {fileID: 1346722766}
   - component: {fileID: 1346722765}
   - component: {fileID: 1346722764}
+  - component: {fileID: 1346722768}
   m_Layer: 0
   m_Name: PlayerMovement
   m_TagString: Untagged
@@ -717,11 +718,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3d146ed759202438d1b38c9f0c625e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 5
+  playerSpeed: 10
   gravityValue: -9.81
   controllerDeadzone: 0.1
   gamepadRotateSmoothing: 1000
   isGamepad: 0
+  movement: {x: 0, y: 0}
 --- !u!114 &1346722765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,6 +888,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1346722768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346722762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b443e2db7c5a57e409700267e7fc1964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 53902756}
 --- !u!1 &1566484063
 GameObject:
   m_ObjectHideFlags: 0
