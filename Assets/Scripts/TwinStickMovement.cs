@@ -23,6 +23,7 @@ public class TwinStickMovement : MonoBehaviour
     private Vector2 aim;
 
     private Vector3 playerVelocity;
+    public Vector3 playerDirection;
 
     private PlayerControls playerControls;
     private PlayerInput playerInput;
@@ -68,11 +69,11 @@ public class TwinStickMovement : MonoBehaviour
     {
         if (isGamepad)
         {
-            UnityEngine.Debug.Log("GamePad");
+            //UnityEngine.Debug.Log("GamePad");
             //Rotate our player
             if (Math.Abs(aim.x) > controllerDeadzone || Mathf.Abs(aim.y) > controllerDeadzone)
             {
-                Vector3 playerDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
+                playerDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
                 if (playerDirection.sqrMagnitude > 0.0f)
                 {
                     Quaternion newrotation = Quaternion.LookRotation(playerDirection, Vector3.up);
@@ -83,7 +84,7 @@ public class TwinStickMovement : MonoBehaviour
         }
         else
         {
-            UnityEngine.Debug.Log("Mouse");
+            //UnityEngine.Debug.Log("Mouse");
             Ray ray = Camera.main.ScreenPointToRay(aim);
             Plane groundPlane = new Plane(Vector3.up, Vector3.zero); 
             float rayDistance;
