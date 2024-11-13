@@ -16,6 +16,7 @@ public class TwinStickMovement : MonoBehaviour
     [SerializeField] private float gamepadRotateSmoothing = 1000f;
 
     [SerializeField] private bool isGamepad;
+    public bool combat;
 
     private CharacterController controller;
 
@@ -67,37 +68,40 @@ public class TwinStickMovement : MonoBehaviour
     }
     void HandleRotation()
     {
-        if (isGamepad)
+        if (!combat)
         {
-            //UnityEngine.Debug.Log("GamePad");
-            //Rotate our player
-            if (Math.Abs(aim.x) > controllerDeadzone || Mathf.Abs(aim.y) > controllerDeadzone)
+            if (isGamepad)
             {
-                playerDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
-                if (playerDirection.sqrMagnitude > 0.0f)
+                //UnityEngine.Debug.Log("GamePad");
+                //Rotate our player
+                if (Math.Abs(aim.x) > controllerDeadzone || Mathf.Abs(aim.y) > controllerDeadzone)
                 {
-                    Quaternion newrotation = Quaternion.LookRotation(playerDirection, Vector3.up);
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, newrotation, gamepadRotateSmoothing * Time.deltaTime);
+                    playerDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
+                    if (playerDirection.sqrMagnitude > 0.0f)
+                    {
+                        Quaternion newrotation = Quaternion.LookRotation(playerDirection, Vector3.up);
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, newrotation, gamepadRotateSmoothing * Time.deltaTime);
+                    }
+
                 }
-
             }
-        }
-        else
-        {
-            //UnityEngine.Debug.Log("Mouse");
-            Ray ray = Camera.main.ScreenPointToRay(aim);
-            Plane groundPlane = new Plane(Vector3.up, Vector3.zero); 
-            float rayDistance;
-
-            //UnityEngine.Debug.DrawRay(transform.position, forward, Color.green);
-
-
-            if (groundPlane.Raycast(ray, out rayDistance))
+            else
             {
-                UnityEngine.Debug.Log("CAST HIT");
-                Vector3 point = ray.GetPoint(rayDistance); 
-                LookAt(point);
-                sphereTest = point;
+                //UnityEngine.Debug.Log("Mouse");
+                Ray ray = Camera.main.ScreenPointToRay(aim);
+                Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+                float rayDistance;
+
+                //UnityEngine.Debug.DrawRay(transform.position, forward, Color.green);
+
+
+                if (groundPlane.Raycast(ray, out rayDistance))
+                {
+                    UnityEngine.Debug.Log("CAST HIT");
+                    Vector3 point = ray.GetPoint(rayDistance);
+                    LookAt(point);
+                    sphereTest = point;
+                }
             }
         }
     }
