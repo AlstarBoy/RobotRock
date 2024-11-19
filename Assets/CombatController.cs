@@ -40,6 +40,7 @@ public class CombatController : MonoBehaviour
     void Update()
     {
         ManageAttackCooldown();
+        tsm.combat = isAttacking;
     }
 
     // Handle basic attack input

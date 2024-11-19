@@ -7,6 +7,8 @@ public class SmoothCameraFollow : MonoBehaviour
     public float smoothSpeed = 0.125f; // Smoothing speed factor
 
     private Vector3 velocity = Vector3.zero; // Reference velocity for SmoothDamp
+    
+    public bool canRotate = false;
 
     void LateUpdate()
     {
@@ -17,6 +19,13 @@ public class SmoothCameraFollow : MonoBehaviour
 
             // Smoothly move the camera towards the target position
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothSpeed);
+
+            if (canRotate)
+            {
+                Quaternion newrotation = Quaternion.LookRotation(playerDirection, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, newrotation, gamepadRotateSmoothing * Time.deltaTime);
+
+            }
         }
     }
 }
