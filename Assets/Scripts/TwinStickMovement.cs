@@ -31,6 +31,10 @@ public class TwinStickMovement : MonoBehaviour
 
     private Vector3 sphereTest;
 
+    // Character Model Rotation
+    public bool canRotate = false;
+    public GameObject charModel;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -51,6 +55,7 @@ public class TwinStickMovement : MonoBehaviour
         HandleInput();
         HandleMovement();
         HandleRotation();
+        characterModelRotation();
     }
 
     void HandleInput()
@@ -68,8 +73,6 @@ public class TwinStickMovement : MonoBehaviour
     }
     void HandleRotation()
     {
-        if (!combat)
-        {
             if (isGamepad)
             {
                 //UnityEngine.Debug.Log("GamePad");
@@ -103,8 +106,49 @@ public class TwinStickMovement : MonoBehaviour
                     sphereTest = point;
                 }
             }
+    }
+
+    private void characterModelRotation()
+    {
+        if (!combat)
+        {
+            if (isGamepad)
+            {
+                //UnityEngine.Debug.Log("GamePad");
+                //Rotate our player
+                if (Math.Abs(aim.x) > controllerDeadzone || Mathf.Abs(aim.y) > controllerDeadzone)
+                {
+                    playerDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
+                    if (playerDirection.sqrMagnitude > 0.0f)
+                    {
+                        Quaternion newrotation = Quaternion.LookRotation(playerDirection, Vector3.up);
+                        charModel.transform.rotation = Quaternion.RotateTowards(charModel.transform.rotation, newrotation, gamepadRotateSmoothing * Time.deltaTime);
+                    }
+
+                }
+            }
+            else
+            {
+                //UnityEngine.Debug.Log("Mouse");
+                Ray ray = Camera.main.ScreenPointToRay(aim);
+                Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+                float rayDistance;
+
+                //UnityEngine.Debug.DrawRay(transform.position, forward, Color.green);
+
+
+                if (groundPlane.Raycast(ray, out rayDistance))
+                {
+                    UnityEngine.Debug.Log("CAST HIT");
+                    Vector3 point = ray.GetPoint(rayDistance);
+                    Vector3 heightCorrectedPoint = new Vector3(point.x, transform.position.y, point.z);
+                    charModel.transform.LookAt(heightCorrectedPoint);
+                    sphereTest = point;
+                }
+            }
         }
     }
+
 
     private void LookAt(Vector3 lookPoint)
     {
