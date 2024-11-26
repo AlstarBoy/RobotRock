@@ -192,7 +192,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 53902754}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e08443cee57b4aa46aee218c8a42fdfe, type: 3}
   m_Name: 
@@ -2579,6 +2579,7 @@ MonoBehaviour:
   combat: 0
   movement: {x: 0, y: 0}
   playerDirection: {x: 0, y: 0, z: 0}
+  rotationSpeed: 10
   canRotate: 0
   charModel: {fileID: 53902754}
 --- !u!114 &1346722765

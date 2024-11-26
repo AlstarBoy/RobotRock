@@ -31,6 +31,8 @@ public class TwinStickMovement : MonoBehaviour
 
     private Vector3 sphereTest;
 
+    public float rotationSpeed = 10f;
+
     // Character Model Rotation
     public bool canRotate = false;
     public GameObject charModel;
@@ -55,7 +57,10 @@ public class TwinStickMovement : MonoBehaviour
         HandleInput();
         HandleMovement();
         HandleRotation();
-        characterModelRotation();
+        if (canRotate)
+        {
+            characterModelRotation();
+        }
     }
 
     void HandleInput()
@@ -110,42 +115,16 @@ public class TwinStickMovement : MonoBehaviour
 
     private void characterModelRotation()
     {
-        if (!combat)
+        Vector3 move = new Vector3(movement.x, 0, movement.y);
+
+        // Rotate the model towards movement direction if there is movement
+        if (move != Vector3.zero)
         {
-            if (isGamepad)
-            {
-                //UnityEngine.Debug.Log("GamePad");
-                //Rotate our player
-                if (Math.Abs(aim.x) > controllerDeadzone || Mathf.Abs(aim.y) > controllerDeadzone)
-                {
-                    playerDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
-                    if (playerDirection.sqrMagnitude > 0.0f)
-                    {
-                        Quaternion newrotation = Quaternion.LookRotation(playerDirection, Vector3.up);
-                        charModel.transform.rotation = Quaternion.RotateTowards(charModel.transform.rotation, newrotation, gamepadRotateSmoothing * Time.deltaTime);
-                    }
+            // Calculate target rotation based on movement direction
+            Quaternion targetRotation = Quaternion.LookRotation(move);
 
-                }
-            }
-            else
-            {
-                //UnityEngine.Debug.Log("Mouse");
-                Ray ray = Camera.main.ScreenPointToRay(aim);
-                Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-                float rayDistance;
-
-                //UnityEngine.Debug.DrawRay(transform.position, forward, Color.green);
-
-
-                if (groundPlane.Raycast(ray, out rayDistance))
-                {
-                    UnityEngine.Debug.Log("CAST HIT");
-                    Vector3 point = ray.GetPoint(rayDistance);
-                    Vector3 heightCorrectedPoint = new Vector3(point.x, transform.position.y, point.z);
-                    charModel.transform.LookAt(heightCorrectedPoint);
-                    sphereTest = point;
-                }
-            }
+            // Smoothly rotate towards the target rotation (optional: smoothing for better effect)
+            charModel.transform.rotation = Quaternion.Slerp(charModel.transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
     }
 
