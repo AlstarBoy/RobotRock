@@ -56,7 +56,7 @@ public class TwinStickMovement : MonoBehaviour
     {
         HandleInput();
         HandleMovement();
-        HandleRotation();
+        //HandleRotation();
         if (canRotate)
         {
             characterModelRotation();
@@ -75,6 +75,16 @@ public class TwinStickMovement : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+
+        // Rotate the model towards movement direction if there is movement
+        if (move != Vector3.zero)
+        {
+            // Calculate target rotation based on movement direction
+            Quaternion targetRotation = Quaternion.LookRotation(move);
+
+            // Smoothly rotate towards the target rotation (optional: smoothing for better effect)
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
     }
     void HandleRotation()
     {

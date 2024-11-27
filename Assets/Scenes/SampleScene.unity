@@ -2580,7 +2580,7 @@ MonoBehaviour:
   movement: {x: 0, y: 0}
   playerDirection: {x: 0, y: 0, z: 0}
   rotationSpeed: 10
-  canRotate: 0
+  canRotate: 1
   charModel: {fileID: 53902754}
 --- !u!114 &1346722765
 MonoBehaviour:
