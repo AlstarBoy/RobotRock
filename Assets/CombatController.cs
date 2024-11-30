@@ -15,14 +15,14 @@ public class CombatController : MonoBehaviour
 
     // Animator
     public Animator animator;
-    private TwinStickMovement tsm;
+    public TwinStickMovement tsm;
 
     // Enemy Tracking
     private List<GameObject> enemiesInRange = new List<GameObject>();
     private GameObject currentTarget;
 
     // Attack State Management
-    private bool isAttacking = false;
+    public bool isAttacking = false;
     private bool isCountering = false;
     private float attackTimer;
 
@@ -33,7 +33,6 @@ public class CombatController : MonoBehaviour
 
     void Start()
     {
-        tsm = GetComponent<TwinStickMovement>();
         playerControls = new PlayerControls();
     }
 
@@ -41,6 +40,9 @@ public class CombatController : MonoBehaviour
     {
         ManageAttackCooldown();
         tsm.combat = isAttacking;
+        // Calculate target rotation based on movement direction
+        transform.rotation = tsm.transform.rotation;
+
     }
 
     // Handle basic attack input

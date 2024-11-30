@@ -55,12 +55,11 @@ public class TwinStickMovement : MonoBehaviour
     void Update()
     {
         HandleInput();
-        HandleMovement();
-        //HandleRotation();
-        if (canRotate)
+        if(!combat)
         {
-            characterModelRotation();
+            HandleMovement();
         }
+        //HandleMouseRotation();
     }
 
     void HandleInput()
@@ -68,7 +67,7 @@ public class TwinStickMovement : MonoBehaviour
             movement = playerControls.Controls.Move.ReadValue<Vector2>(); 
             aim = playerControls.Controls.Look.ReadValue<Vector2>();
     }
-    void HandleMovement()
+    public void HandleMovement()
     {
         Vector3 move = new Vector3(movement.x, 0, movement.y);
         controller.Move(move * Time.deltaTime * playerSpeed);
@@ -86,7 +85,15 @@ public class TwinStickMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
     }
-    void HandleRotation()
+
+    public void onDeviceChange(PlayerInput pi)
+    {
+        isGamepad = pi.currentControlScheme.Equals("Gamepad") ? true : false;
+
+    }
+
+    /*
+    void HandleMouseRotation()
     {
             if (isGamepad)
             {
@@ -151,9 +158,7 @@ public class TwinStickMovement : MonoBehaviour
         Gizmos.DrawSphere(sphereTest, 1);
     }
 
-    public void onDeviceChange(PlayerInput pi)
-    {
-        isGamepad = pi.currentControlScheme.Equals("Gamepad") ? true : false;
+    */
 
-    }
+
 }

@@ -2077,6 +2077,8 @@ MonoBehaviour:
   coneAngle: 20
   rayCount: 10
   animator: {fileID: 53902756}
+  tsm: {fileID: 1346722764}
+  isAttacking: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
