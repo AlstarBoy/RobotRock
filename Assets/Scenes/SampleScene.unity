@@ -176,7 +176,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 35005100d703ee548819037d5eda85a4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -2082,6 +2082,9 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  playerCont: {fileID: 1346722762}
+  moveSpeed: 5
+  rotateSpeed: 5
 --- !u!114 &1132381913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4158,7 +4161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0db32499207471c40a479dd5f7a4dc54, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0db32499207471c40a479dd5f7a4dc54, type: 3}
       propertyPath: m_LocalPosition.z

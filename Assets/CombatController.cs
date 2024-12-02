@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-
 public class CombatController : MonoBehaviour
 {
     // Configurable Fields
@@ -31,6 +30,10 @@ public class CombatController : MonoBehaviour
 
     private PlayerControls playerControls;
 
+    public GameObject playerCont;
+    public float moveSpeed = 5f;  // Speed of movement
+    public float rotateSpeed = 5f;  // Speed of rotation
+
     void Start()
     {
         playerControls = new PlayerControls();
@@ -38,11 +41,12 @@ public class CombatController : MonoBehaviour
 
     void Update()
     {
+        HandleAttackInput();
         ManageAttackCooldown();
         tsm.combat = isAttacking;
         // Calculate target rotation based on movement direction
         transform.rotation = tsm.transform.rotation;
-
+        tsm.CombatAim(this.gameObject);
     }
 
     // Handle basic attack input
@@ -106,6 +110,7 @@ public class CombatController : MonoBehaviour
     // Perform attack on the current target
     void PerformAttack()
     {
+        print(currentTarget.transform.position);
         tsm.combat = true;
         print("Attack");
         isAttacking = true;
@@ -114,12 +119,32 @@ public class CombatController : MonoBehaviour
         // Trigger the attack animation
         animator.SetTrigger("Attack");
 
+        MoveTowardsTarget(playerCont);
+
         // Rotate toward target
         Vector3 direction = (currentTarget.transform.position - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
 
         // Apply damage after animation delay
         Invoke("ApplyDamage", attackDelay);
+    }
+
+    void RotateTowardsTarget(GameObject gameObject)
+    {
+        // Get direction to the target
+        Vector3 directionToTarget = currentTarget.transform.position - gameObject.transform.position;
+
+        // Calculate the rotation needed to face the target
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+
+        // Smoothly rotate towards the target rotation
+        gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+    }
+
+    void MoveTowardsTarget(GameObject gameObject)
+    {
+        // Move towards the target position
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentTarget.transform.position, moveSpeed * Time.deltaTime);
     }
 
     // Perform counter on the current target

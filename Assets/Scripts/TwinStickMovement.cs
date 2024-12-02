@@ -86,6 +86,22 @@ public class TwinStickMovement : MonoBehaviour
         }
     }
 
+    public void CombatAim(GameObject gameObject)
+    {
+        Vector3 move = new Vector3(movement.x, 0, movement.y);
+
+        // Rotate the model towards movement direction if there is movement
+        if (move != Vector3.zero)
+        {
+            // Calculate target rotation based on movement direction
+            Quaternion targetRotation = Quaternion.LookRotation(move);
+
+            gameObject.transform.rotation = targetRotation;
+            // Smoothly rotate towards the target rotation (optional: smoothing for better effect)
+            //transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
+    }
+
     public void onDeviceChange(PlayerInput pi)
     {
         isGamepad = pi.currentControlScheme.Equals("Gamepad") ? true : false;
