@@ -52,10 +52,10 @@ public class CombatController : MonoBehaviour
         {
             // move towards player
             //MoveTowardsTarget(playerCont, moveSpeed);
-            MoveTowardsTargetNextTo(playerCont.gameObject, currentTarget, 3, moveSpeed);
+            MoveTowardsTargetWithStoppingDistance(playerCont.gameObject, currentTarget, 1.1f, moveSpeed);
             // Rotate toward target
             Vector3 direction = (currentTarget.transform.position - transform.position).normalized;
-            transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            playerCont.transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         }
 
     }
@@ -121,14 +121,15 @@ public class CombatController : MonoBehaviour
     // Perform attack on the current target
     void PerformAttack()
     {
+        // Trigger the attack animation
+        animator.SetTrigger("Attack");
         print(currentTarget.transform.position);
         tsm.combat = true;
         print("Attack");
         isAttacking = true;
         attackTimer = attackDelay;
 
-        // Trigger the attack animation
-        animator.SetTrigger("Attack");
+       
 
         // Apply damage after animation delay
         Invoke("ApplyDamage", attackDelay);
@@ -152,21 +153,23 @@ public class CombatController : MonoBehaviour
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentTarget.transform.position, speed * Time.deltaTime);
     }
 
-    void MoveTowardsTargetNextTo(GameObject gameObject, GameObject currentTarget, float distanceToSide, float speed)
+    void MoveTowardsTargetWithStoppingDistance(GameObject gameObject, GameObject currentTarget, float stoppingDistance, float speed)
     {
-        // Calculate the direction from the moving object to the target
+        // Calculate the direction to the target
         Vector3 directionToTarget = (currentTarget.transform.position - gameObject.transform.position).normalized;
 
-        // Calculate a perpendicular direction relative to the direction to the target
-        Vector3 perpendicularDirection = Vector3.Cross(directionToTarget, Vector3.up).normalized;
+        // Calculate the target position with the stopping distance offset
+        Vector3 targetPositionWithOffset = currentTarget.transform.position - directionToTarget * stoppingDistance;
 
-        // Choose the side based on some condition (e.g., always move to the right side relative to approach)
-        Vector3 positionToSide = currentTarget.transform.position + perpendicularDirection * distanceToSide;
+        // Move towards the offset target position
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPositionWithOffset, speed * Time.deltaTime);
 
-        // Move the object towards the calculated position
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, positionToSide, speed * Time.deltaTime);
+        // Optional: Ensure the object doesn't overshoot the stopping distance
+        if (Vector3.Distance(gameObject.transform.position, targetPositionWithOffset) < 0.1f)
+        {
+            gameObject.transform.position = targetPositionWithOffset;
+        }
     }
-
 
     // Perform counter on the current target
     void PerformCounter()
