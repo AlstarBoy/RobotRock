@@ -51,7 +51,8 @@ public class CombatController : MonoBehaviour
         if (isAttacking)
         {
             // move towards player
-            MoveTowardsTarget(playerCont);
+            //MoveTowardsTarget(playerCont, moveSpeed);
+            MoveTowardsTargetNextTo(playerCont.gameObject, currentTarget, 3, moveSpeed);
             // Rotate toward target
             Vector3 direction = (currentTarget.transform.position - transform.position).normalized;
             transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
@@ -145,11 +146,27 @@ public class CombatController : MonoBehaviour
         gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
     }
 
-    void MoveTowardsTarget(GameObject gameObject)
+    void MoveTowardsTarget(GameObject gameObject, float speed)
     {
         // Move towards the target position
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentTarget.transform.position, moveSpeed * Time.deltaTime);
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentTarget.transform.position, speed * Time.deltaTime);
     }
+
+    void MoveTowardsTargetNextTo(GameObject gameObject, GameObject currentTarget, float distanceToSide, float speed)
+    {
+        // Calculate the direction from the moving object to the target
+        Vector3 directionToTarget = (currentTarget.transform.position - gameObject.transform.position).normalized;
+
+        // Calculate a perpendicular direction relative to the direction to the target
+        Vector3 perpendicularDirection = Vector3.Cross(directionToTarget, Vector3.up).normalized;
+
+        // Choose the side based on some condition (e.g., always move to the right side relative to approach)
+        Vector3 positionToSide = currentTarget.transform.position + perpendicularDirection * distanceToSide;
+
+        // Move the object towards the calculated position
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, positionToSide, speed * Time.deltaTime);
+    }
+
 
     // Perform counter on the current target
     void PerformCounter()
