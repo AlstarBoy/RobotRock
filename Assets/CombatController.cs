@@ -47,6 +47,16 @@ public class CombatController : MonoBehaviour
         // Calculate target rotation based on movement direction
         transform.rotation = tsm.transform.rotation;
         tsm.CombatAim(this.gameObject);
+
+        if (isAttacking)
+        {
+            // move towards player
+            MoveTowardsTarget(playerCont);
+            // Rotate toward target
+            Vector3 direction = (currentTarget.transform.position - transform.position).normalized;
+            transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        }
+
     }
 
     // Handle basic attack input
@@ -118,12 +128,6 @@ public class CombatController : MonoBehaviour
 
         // Trigger the attack animation
         animator.SetTrigger("Attack");
-
-        MoveTowardsTarget(playerCont);
-
-        // Rotate toward target
-        Vector3 direction = (currentTarget.transform.position - transform.position).normalized;
-        transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
 
         // Apply damage after animation delay
         Invoke("ApplyDamage", attackDelay);
