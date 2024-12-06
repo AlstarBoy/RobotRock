@@ -34,6 +34,10 @@ public class CombatController : MonoBehaviour
     public float moveSpeed = 5f;  // Speed of movement
     public float rotateSpeed = 5f;  // Speed of rotation
 
+    public ComboCounter comboC;
+    public int currentFailedHit;
+    public int maxFailedHits;
+
     void Start()
     {
         playerControls = new PlayerControls();
@@ -41,7 +45,6 @@ public class CombatController : MonoBehaviour
 
     void Update()
     {
-        HandleAttackInput();
         ManageAttackCooldown();
         tsm.combat = isAttacking;
         // Calculate target rotation based on movement direction
@@ -60,6 +63,7 @@ public class CombatController : MonoBehaviour
 
     }
 
+    // Referenced in Player Input System
     // Handle basic attack input
     public void HandleAttackInput()
     {
@@ -69,6 +73,18 @@ public class CombatController : MonoBehaviour
             if (FindTargetWithinCone(attackRange, coneAngle))
             {
                 PerformAttack();
+                comboC.currentCombo++;
+                currentFailedHit = 0;
+            }
+            else
+            {
+                currentFailedHit++;
+                print("break combo");
+                if (currentFailedHit > maxFailedHits)
+                {
+                    comboC.currentCombo = 0;
+                    currentFailedHit = 0;
+                }
             }
         }
     }
