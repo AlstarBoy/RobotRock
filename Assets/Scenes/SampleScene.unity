@@ -2324,7 +2324,9 @@ MonoBehaviour:
   playerCont: {fileID: 1346722762}
   moveSpeed: 15
   rotateSpeed: 5
-  comboC: {fileID: 0}
+  comboC: {fileID: 1132381914}
+  currentFailedHit: 0
+  maxFailedHits: 0
 --- !u!114 &1132381913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2354,7 +2356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentCombo: 0
   highestCombo: 0
-  comboText: {fileID: 0}
+  comboText: {fileID: 355352816}
 --- !u!1 &1142419320
 GameObject:
   m_ObjectHideFlags: 0
