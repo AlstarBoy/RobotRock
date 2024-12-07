@@ -17,7 +17,7 @@ public class ComboCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        comboText.text = "Combo" + currentCombo;
+        comboText.text = "x" + currentCombo;
 
         if (currentCombo > highestCombo)
         {
