@@ -34,6 +34,9 @@ public class CombatController : MonoBehaviour
     public float moveSpeed = 5f;  // Speed of movement
     public float rotateSpeed = 5f;  // Speed of rotation
 
+    // Attack Distance
+    public float attackDistance;
+
     public ComboCounter comboC;
     public int currentFailedHit;
     public int maxFailedHits;
@@ -69,7 +72,6 @@ public class CombatController : MonoBehaviour
     {
         if (!isAttacking && !isCountering)
         {
-            print("FireButton1");
             if (FindTargetWithinCone(attackRange, coneAngle))
             {
                 PerformAttack();
@@ -79,7 +81,6 @@ public class CombatController : MonoBehaviour
             else
             {
                 currentFailedHit++;
-                print("break combo");
                 if (currentFailedHit > maxFailedHits)
                 {
                     comboC.currentCombo = 0;
@@ -94,7 +95,6 @@ public class CombatController : MonoBehaviour
     {
         if (!isAttacking)
         {
-            print("FireButton2");
             PerformCounter();
         }
     }
@@ -119,12 +119,13 @@ public class CombatController : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Enemy"))
                 {
-                    float distance = Vector3.Distance(transform.position, hit.point);
+                    attackDistance = Vector3.Distance(transform.position, hit.point);
+                    print("Distance " + attackDistance);
 
                     // Update the closest target within the cone
-                    if (distance < closestDistance)
+                    if (attackDistance < closestDistance)
                     {
-                        closestDistance = distance;
+                        closestDistance = attackDistance;
                         currentTarget = hit.collider.gameObject;
                     }
                 }
@@ -139,9 +140,8 @@ public class CombatController : MonoBehaviour
     {
         // Trigger the attack animation
         animator.SetTrigger("Attack");
-        print(currentTarget.transform.position);
+        animator.SetFloat("AttackDistance", attackDistance);
         tsm.combat = true;
-        print("Attack");
         isAttacking = true;
         attackTimer = attackDelay;
 
@@ -191,7 +191,6 @@ public class CombatController : MonoBehaviour
     void PerformCounter()
     {
         tsm.combat = true;
-        print("Counter");
         isCountering = true;
 
         // Trigger the counter animation

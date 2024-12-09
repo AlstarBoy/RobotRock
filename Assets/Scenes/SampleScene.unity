@@ -2225,6 +2225,7 @@ MonoBehaviour:
   playerCont: {fileID: 1346722762}
   moveSpeed: 15
   rotateSpeed: 5
+  attackDistance: 0
   comboC: {fileID: 1132381914}
   currentFailedHit: 0
   maxFailedHits: 0
@@ -2257,7 +2258,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentCombo: 0
   highestCombo: 0
-  comboText: {fileID: 0}
+  comboText: {fileID: 1429626491}
+  comboTextBack: {fileID: 2090643225}
 --- !u!1 &1142419320
 GameObject:
   m_ObjectHideFlags: 0
@@ -4739,7 +4741,7 @@ GameObject:
   - component: {fileID: 2090643226}
   - component: {fileID: 2090643225}
   m_Layer: 5
-  m_Name: Combo Text (TMP) (2)
+  m_Name: Combo Text Back (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

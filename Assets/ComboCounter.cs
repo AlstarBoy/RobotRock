@@ -7,6 +7,7 @@ public class ComboCounter : MonoBehaviour
     public int highestCombo;
 
     public TextMeshProUGUI comboText;
+    public TextMeshProUGUI comboTextBack;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,6 +19,8 @@ public class ComboCounter : MonoBehaviour
     void Update()
     {
         comboText.text = "x" + currentCombo;
+        comboTextBack.text = "x" + currentCombo;
+
 
         if (currentCombo > highestCombo)
         {
