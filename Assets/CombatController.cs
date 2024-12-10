@@ -33,6 +33,7 @@ public class CombatController : MonoBehaviour
     public GameObject playerCont;
     public float moveSpeed = 5f;  // Speed of movement
     public float rotateSpeed = 5f;  // Speed of rotation
+    public float attackMoveOffset = 1.4f;
 
     // Attack Distance
     public float attackDistance;
@@ -58,7 +59,7 @@ public class CombatController : MonoBehaviour
         {
             // move towards player
             //MoveTowardsTarget(playerCont, moveSpeed);
-            MoveTowardsTargetWithStoppingDistance(playerCont.gameObject, currentTarget, 1.1f, moveSpeed);
+            MoveTowardsTargetWithStoppingDistance(playerCont.gameObject, currentTarget, attackMoveOffset, moveSpeed);
             // Rotate toward target
             Vector3 direction = (currentTarget.transform.position - transform.position).normalized;
             playerCont.transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
