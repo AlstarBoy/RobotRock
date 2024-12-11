@@ -3444,9 +3444,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 341722927412413603, guid: ea64bb0787f02ab4f886d43c849a3c2e, type: 3}
+      propertyPath: rayCount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 341722927412413603, guid: ea64bb0787f02ab4f886d43c849a3c2e, type: 3}
+      propertyPath: coneAngle
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 4880773268221613927, guid: ea64bb0787f02ab4f886d43c849a3c2e, type: 3}
       propertyPath: m_Name
       value: === PlayerObjects
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456865983725003826, guid: ea64bb0787f02ab4f886d43c849a3c2e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5484053047341245196, guid: ea64bb0787f02ab4f886d43c849a3c2e, type: 3}
       propertyPath: comboText

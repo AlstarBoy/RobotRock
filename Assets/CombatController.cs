@@ -172,19 +172,33 @@ public class CombatController : MonoBehaviour
 
     void MoveTowardsTargetWithStoppingDistance(GameObject gameObject, GameObject currentTarget, float stoppingDistance, float speed)
     {
-        // Calculate the direction to the target
-        Vector3 directionToTarget = (currentTarget.transform.position - gameObject.transform.position).normalized;
+        // Get the current position and target position
+        Vector3 currentPosition = gameObject.transform.position;
+        Vector3 targetPosition = currentTarget.transform.position;
 
-        // Calculate the target position with the stopping distance offset
-        Vector3 targetPositionWithOffset = currentTarget.transform.position - directionToTarget * stoppingDistance;
+        // Ignore Y-axis movement by setting Y values to the same
+        currentPosition.y = 0f;
+        targetPosition.y = 0f;
 
-        // Move towards the offset target position
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPositionWithOffset, speed * Time.deltaTime);
+        // Calculate the direction to the target (ignoring Y)
+        Vector3 directionToTarget = (targetPosition - currentPosition).normalized;
+
+        // Calculate the target position with the stopping distance offset (ignoring Y)
+        Vector3 targetPositionWithOffset = targetPosition - directionToTarget * stoppingDistance;
+
+        // Move towards the offset target position (ignoring Y)
+        Vector3 newPosition = Vector3.MoveTowards(currentPosition, targetPositionWithOffset, speed * Time.deltaTime);
+
+        // Preserve the original Y position of the game object
+        newPosition.y = gameObject.transform.position.y;
+
+        // Update the game object's position
+        gameObject.transform.position = newPosition;
 
         // Optional: Ensure the object doesn't overshoot the stopping distance
-        if (Vector3.Distance(gameObject.transform.position, targetPositionWithOffset) < 0.1f)
+        if (Vector3.Distance(new Vector3(currentPosition.x, 0, currentPosition.z), new Vector3(targetPositionWithOffset.x, 0, targetPositionWithOffset.z)) < 0.1f)
         {
-            gameObject.transform.position = targetPositionWithOffset;
+            gameObject.transform.position = targetPositionWithOffset + new Vector3(0, gameObject.transform.position.y, 0);
         }
     }
 
