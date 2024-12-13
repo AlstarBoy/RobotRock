@@ -39,6 +39,8 @@ public class CombatController : MonoBehaviour
     public float attackDistance;
 
     public ComboCounter comboC;
+    public int triCombo;
+    public int randCombo;
     public int currentFailedHit;
     public int maxFailedHits;
 
@@ -86,6 +88,7 @@ public class CombatController : MonoBehaviour
                 {
                     comboC.currentCombo = 0;
                     currentFailedHit = 0;
+                    triCombo = 0;
                 }
             }
         }
@@ -121,7 +124,6 @@ public class CombatController : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     attackDistance = Vector3.Distance(transform.position, hit.point);
-                    print("Distance " + attackDistance);
 
                     // Update the closest target within the cone
                     if (attackDistance < closestDistance)
@@ -139,17 +141,64 @@ public class CombatController : MonoBehaviour
     // Perform attack on the current target
     void PerformAttack()
     {
+        print("attack");
         // Trigger the attack animation
+        RandomiseAnimation();
         animator.SetTrigger("Attack");
         animator.SetFloat("AttackDistance", attackDistance);
+        animator.SetInteger("RandCombo", randCombo);
+        animator.SetInteger("triCombo", triCombo);
         tsm.combat = true;
         isAttacking = true;
         attackTimer = attackDelay;
 
-       
-
         // Apply damage after animation delay
         Invoke("ApplyDamage", attackDelay);
+    }
+
+    void RandomiseAnimation()
+    {
+        print("rand muber");
+        if (triCombo != 3)
+        {
+            print("combo up");
+            triCombo += 1;
+        }
+        else
+        {
+            triCombo = 0;
+        }
+
+        if (attackDistance < 3)
+        {
+            if (triCombo == 0)
+            {
+                randCombo = UnityEngine.Random.Range(0, 5);
+            }
+            else if (triCombo == 1)
+            {
+                randCombo = UnityEngine.Random.Range(0, 6);
+            }
+            else if (triCombo == 2)
+            {
+                randCombo = UnityEngine.Random.Range(0, 4);
+            }
+        }
+        else if (attackDistance > 3)
+        {
+            if (triCombo == 0)
+            {
+                randCombo = UnityEngine.Random.Range(0, 5);
+            }
+            else if (triCombo == 1)
+            {
+                randCombo = UnityEngine.Random.Range(0, 5);
+            }
+            else if (triCombo == 2)
+            {
+                randCombo = UnityEngine.Random.Range(0, 5);
+            }
+        }
     }
 
     void RotateTowardsTarget(GameObject gameObject)
