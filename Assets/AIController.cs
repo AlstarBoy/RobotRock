@@ -1,34 +1,33 @@
-using System.Diagnostics;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI; // Required for NavMesh
-using System.Collections;
 
 public class AIController : MonoBehaviour
 {
-    // Core AI Components
     public Transform player;
     private NavMeshAgent agent;
     private Animator animator;
 
     // AI Stats
     public float followDistance = 10f;   // Start following within this range
+    public int attackDamage;
     public float attackDistance = 2f;   // Attack when within this range
     public float attackCooldown = 1.5f; // Time between attacks
+    public float stopDistance = 1.5f;   // Distance to stop before colliding with the player
     public int maxHealth = 100;         // AI's max health
-    private int currentHealth;
-
-    // Attack and Health System
+    public int currentHealth;
     private bool isAttacking = false;
-    private bool isKnockedBack = false;
-    public float knockbackForce = 5f;
+    public int triCombo;
+    public int randCombo;
+    public bool playerHit;
+
+    // Knockback and Stun
+    public float knockbackDistance = 2f;
+    public float knockbackSpeed = 5f;
     public float stunDuration = 1f;
-
-    // VFX and SFX
-    public GameObject deathVFX; // VFX prefab for death
-    public AudioClip attackSound; // Sound to play during attack
-    public AudioClip hitSound; // Sound to play when hit
-
-    private float attackTimer = 0f;
+    private bool isKnockedBack = false;
+    public GameObject playerObject;
+    private Vector3 directionToPlayer;
 
     void Start()
     {
@@ -36,13 +35,14 @@ public class AIController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
-        // Set current health
+        // Set initial health
         currentHealth = maxHealth;
+        playerObject = GameObject.FindGameObjectWithTag("Player");
 
         // Find the player if not assigned
         if (player == null)
         {
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            playerObject = GameObject.FindGameObjectWithTag("Player");
             if (playerObject != null)
             {
                 player = playerObject.transform;
@@ -53,28 +53,43 @@ public class AIController : MonoBehaviour
         {
             print("Player not found. Ensure your player is tagged as 'Player' or assigned manually.");
         }
+
+        // Set stopping distance to prevent collision
+        agent.stoppingDistance = stopDistance;
     }
 
     void Update()
     {
-        if (isKnockedBack || currentHealth <= 0)
-            return; // Prevent movement when stunned or dead
+        if (currentHealth <= 0)
+            return; // Prevent any action if AI is dead
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= followDistance)
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (distanceToPlayer <= followDistance && !isKnockedBack)
         {
             if (distanceToPlayer > attackDistance)
             {
-                // Move toward the player
-                agent.SetDestination(player.position);
+                if (agent.enabled)
+                {
+                    // Move toward the player
+                    agent.SetDestination(player.position);
+                }
+                animator.SetFloat("Vertical", 1);
                 animator.SetBool("isWalking", true); // Play walking animation
             }
             else
             {
-                // Attack the player
-                animator.SetBool("isWalking", false); // Stop walking
-                if (!isAttacking && attackTimer <= 0f)
+                if (agent.enabled)
+                {
+                    // Stop moving and attack
+                    agent.ResetPath(); // Ensure the agent stops moving
+                }
+                animator.SetBool("isWalking", false);
+                animator.SetFloat("Vertical", 0);
+
+                if (!isAttacking)
                 {
                     StartCoroutine(AttackPlayer());
                 }
@@ -82,42 +97,119 @@ public class AIController : MonoBehaviour
         }
         else
         {
-            // Stop movement and animations
-            agent.ResetPath();
+            if (agent.enabled)
+            {
+                // Stop movement and animations when out of follow range
+                agent.ResetPath();
+            }
             animator.SetBool("isWalking", false);
         }
 
-        // Update attack cooldown
-        if (attackTimer > 0)
+        if (isAttacking)
         {
-            attackTimer -= Time.deltaTime;
+            // Face the player before attacking
+            directionToPlayer = (player.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+        }
+
+        // Play hit animation only if desired
+        if (isKnockedBack) // Adjust condition as needed
+        {
+            animator.SetTrigger("Hit");
+        }
+        else
+        {
+            animator.ResetTrigger("Hit");
         }
     }
 
     IEnumerator AttackPlayer()
     {
-        isAttacking = true;
-        attackTimer = attackCooldown;
+        CombatController combatC = playerObject.GetComponent<CombatController>();
+        
+        if (!combatC.playerImmune)
+        {
+            isAttacking = true;
 
-        // Play attack animation and sound
-        animator.SetTrigger("Attack");
-        if (attackSound) AudioSource.PlayClipAtPoint(attackSound, transform.position);
+            // Play attack animation
+            RandomiseAnimation();
+            animator.SetFloat("AttackDistance", attackDistance);
+            animator.SetInteger("RandCombo", randCombo);
+            animator.SetInteger("triCombo", triCombo);
+            animator.SetTrigger("Attack");
+            animator.SetFloat("AttackDistance", attackDistance);
+            combatC.TakeDamage(attackDamage + (triCombo * 2), directionToPlayer);
+            combatC.playerImmune = true;
 
-        // Simulate damage to player here
-        print("Player attacked!");
 
-        yield return new WaitForSeconds(attackCooldown);
-        isAttacking = false;
+            // Simulate damage to player here
+            print("Player attacked!");
+
+            yield return new WaitForSeconds(attackCooldown);
+
+            isAttacking = false;
+            animator.SetTrigger("idle");
+        }
+
+
     }
 
+    void RandomiseAnimation()
+    {
+        print("rand muber");
+        if (triCombo != 3)
+        {
+            print("combo up");
+            triCombo += 1;
+        }
+        else
+        {
+            triCombo = 0;
+        }
+
+        if (attackDistance < 3)
+        {
+            if (triCombo == 0)
+            {
+                randCombo = UnityEngine.Random.Range(0, 5);
+            }
+            else if (triCombo == 1)
+            {
+                randCombo = UnityEngine.Random.Range(0, 6);
+            }
+            else if (triCombo == 2)
+            {
+                randCombo = UnityEngine.Random.Range(0, 4);
+            }
+        }
+        else if (attackDistance > 3)
+        {
+            if (triCombo == 0)
+            {
+                randCombo = UnityEngine.Random.Range(0, 5);
+            }
+            else if (triCombo == 1)
+            {
+                randCombo = UnityEngine.Random.Range(0, 5);
+            }
+            else if (triCombo == 2)
+            {
+                randCombo = UnityEngine.Random.Range(0, 5);
+            }
+        }
+    }
+
+    // New Methods
     public void TakeDamage(int damage, Vector3 knockbackDirection)
     {
         if (currentHealth <= 0) return;
 
-        currentHealth -= damage;
-        print($"AI took {damage} damage! Current health: {currentHealth}");
-
-        if (hitSound) AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        if (!isKnockedBack)
+        {
+            currentHealth -= damage;
+            print($"AI took {damage} damage! Current health: {currentHealth}");
+        }
 
         if (currentHealth > 0)
         {
@@ -126,7 +218,7 @@ public class AIController : MonoBehaviour
         }
         else
         {
-            // Play death logic
+            // Handle AI death
             Die();
         }
     }
@@ -135,44 +227,46 @@ public class AIController : MonoBehaviour
     {
         isKnockedBack = true;
 
-        // Play hit animation
-        animator.SetTrigger("Hit");
-
-        // Apply knockback force
+        // Disable agent for knockback
         agent.enabled = false;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb)
+
+        Vector3 startPosition = transform.position;
+        Vector3 targetPosition = startPosition + direction.normalized * knockbackDistance;
+
+        float elapsedTime = 0f;
+        float duration = knockbackDistance / knockbackSpeed;
+
+        // Lerp to create smooth knockback
+        while (elapsedTime < duration)
         {
-            rb.AddForce(direction * knockbackForce, ForceMode.Impulse);
+            transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+
+        transform.position = targetPosition; // Ensure it ends exactly at the target
 
         yield return new WaitForSeconds(stunDuration);
 
         // Re-enable NavMeshAgent after stun
-        if (rb) rb.linearVelocity = Vector3.zero;
         agent.enabled = true;
 
         isKnockedBack = false;
     }
 
+
     void Die()
     {
         print("AI has died!");
 
-        // Stop all AI movement
+        // Stop movement
         agent.ResetPath();
         agent.enabled = false;
 
         // Play death animation
         animator.SetTrigger("Die");
 
-        // Instantiate VFX
-        if (deathVFX)
-        {
-            Instantiate(deathVFX, transform.position, Quaternion.identity);
-        }
-
-        // Disable the AI after animation ends
+        // Destroy object after death animation
         Destroy(gameObject, 3f); // Adjust delay based on animation length
     }
 }

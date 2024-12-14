@@ -36,24 +36,29 @@ public class MovementAnimationController : MonoBehaviour
             UnityEngine.Debug.Log("Right");
             animator.SetFloat("Horizontal", tsm.movement.y, .15f, Time.deltaTime);
             animator.SetFloat("Vertical", tsm.movement.x, .15f, Time.deltaTime);
+
+
         }
         else if (yRotation > 135 && yRotation < 225) // Facing Down
         {
             UnityEngine.Debug.Log("Down");
             animator.SetFloat("Horizontal", tsm.movement.x * -1, .15f, Time.deltaTime);
             animator.SetFloat("Vertical", tsm.movement.y * -1, .15f, Time.deltaTime);
+
         }
         else if (yRotation > 225 && yRotation < 315) // Facing Left
         {
             UnityEngine.Debug.Log("Left");
             animator.SetFloat("Horizontal", tsm.movement.y * -1, .15f, Time.deltaTime);
             animator.SetFloat("Vertical", tsm.movement.x * -1, .15f, Time.deltaTime);
+
         }
         else if (yRotation > 315 || yRotation > 0 || yRotation < 0) // Facing U
         {
             UnityEngine.Debug.Log("Up");
             animator.SetFloat("Horizontal", tsm.movement.x, .15f, Time.deltaTime);
             animator.SetFloat("Vertical", tsm.movement.y, .15f, Time.deltaTime);
+
         }
 
 

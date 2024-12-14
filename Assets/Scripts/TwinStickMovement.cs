@@ -36,12 +36,16 @@ public class TwinStickMovement : MonoBehaviour
     // Character Model Rotation
     public bool canRotate = false;
     public GameObject charModel;
+    private Animator animator;
+
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
         playerControls = new PlayerControls();
         playerInput = GetComponent<PlayerInput>();
+        animator = charModel.GetComponent<Animator>();
+
     }
 
     private void OnEnable()
@@ -58,6 +62,12 @@ public class TwinStickMovement : MonoBehaviour
         if(!combat)
         {
             HandleMovement();
+            //animator.SetBool("isWalking", true); // Play walking animation
+
+        }
+        else
+        {
+            //animator.SetBool("isWalking", false);
         }
         //HandleMouseRotation();
     }
