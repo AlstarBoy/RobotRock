@@ -108,6 +108,8 @@ public class CombatScript : MonoBehaviour
             AttackType("GroundPunch", .2f, null, 0);
         }
 
+        // REMOVED BELOW CAUSE IT WAS NOT WORKING MUST FIX LATER
+
         //Change impulse
         //impulseSource.m_ImpulseDefinition.m_AmplitudeGain = Mathf.Max(3, 1 * distance);
 
