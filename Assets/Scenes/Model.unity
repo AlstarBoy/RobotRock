@@ -77474,6 +77474,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 22.752033
       objectReference: {fileID: 0}
+    - target: {fileID: 5911941530615285302, guid: 635429b722a72604b9d8d113df87a56b, type: 3}
+      propertyPath: ImpulseDefinition.AmplitudeGain
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5927021944989694995, guid: 635429b722a72604b9d8d113df87a56b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 27.810087
