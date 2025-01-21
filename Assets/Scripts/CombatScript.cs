@@ -111,7 +111,7 @@ public class CombatScript : MonoBehaviour
         // REMOVED BELOW CAUSE IT WAS NOT WORKING MUST FIX LATER
 
         //Change impulse
-        //impulseSource.m_ImpulseDefinition.m_AmplitudeGain = Mathf.Max(3, 1 * distance);
+        impulseSource.GenerateImpulse(Mathf.Max(3, 1 * distance));
 
     }
 
@@ -158,6 +158,7 @@ public class CombatScript : MonoBehaviour
 
     void MoveTorwardsTarget(EnemyScript target, float duration)
     {
+        print("Move to enemy");
         OnTrajectory.Invoke(target);
         transform.DOLookAt(target.transform.position, .2f);
         transform.DOMove(TargetOffset(target.transform), duration);
