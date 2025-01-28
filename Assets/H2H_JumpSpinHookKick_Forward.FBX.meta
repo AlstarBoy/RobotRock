@@ -27,16 +27,7 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'spine_01' has translation animation that
-      will be discarded.\n\t'hand_r' has translation animation that will be discarded.\n\t'neck_01'
-      has translation animation that will be discarded.\n\t'head' has translation
-      animation that will be discarded.\n\t'calf_l' has translation animation that
-      will be discarded.\n\t'foot_l' has translation animation that will be discarded.\n\t'ball_l'
-      has translation animation that will be discarded.\n\t'foot_r' has translation
-      animation that will be discarded.\n\t'ball_r' has translation animation that
-      will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0

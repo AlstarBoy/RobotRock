@@ -4,47 +4,51 @@ using UnityEngine.Events;
 using DG.Tweening;
 using Unity.Cinemachine;
 
+// Core script that manages the player's combat behavior and interactions with enemies
 public class CombatScript : MonoBehaviour
 {
-    private EnemyManager enemyManager;
-    private EnemyDetection enemyDetection;
-    private MovementInput movementInput;
-    private Animator animator;
-    private CinemachineImpulseSource impulseSource;
+    // Component and manager references
+    private EnemyManager enemyManager; // Manages all enemies in the scene
+    private EnemyDetection enemyDetection; // Detects the player's target enemy
+    private MovementInput movementInput; // Handles player movement
+    private Animator animator; // Controls character animations
+    private CinemachineImpulseSource impulseSource; // Creates camera shake effects
 
     [Header("Target")]
-    private EnemyScript lockedTarget;
+    private EnemyScript lockedTarget; // The currently locked-on enemy
 
     [Header("Combat Settings")]
-    [SerializeField] private float attackCooldown;
+    [SerializeField] private float attackCooldown; // Cooldown time between attacks
 
     [Header("States")]
-    public bool isAttackingEnemy = false;
-    public bool isCountering = false;
+    public bool isAttackingEnemy = false; // Is the player currently attacking?
+    public bool isCountering = false; // Is the player countering an enemy's attack?
 
     [Header("Public References")]
-    [SerializeField] private Transform punchPosition;
-    [SerializeField] private ParticleSystemScript punchParticle;
-    [SerializeField] private GameObject lastHitCamera;
-    [SerializeField] private Transform lastHitFocusObject;
+    [SerializeField] private Transform punchPosition; // Position where punch VFX will play
+    [SerializeField] private ParticleSystemScript punchParticle; // Script for handling punch particle effects
+    [SerializeField] private GameObject lastHitCamera; // Camera for "last hit" cinematic
+    [SerializeField] private Transform lastHitFocusObject; // Object to focus on during "last hit"
 
-    //Coroutines
-    private Coroutine counterCoroutine;
-    private Coroutine attackCoroutine;
-    private Coroutine damageCoroutine;
+    // Coroutines
+    private Coroutine counterCoroutine; // Tracks the countering coroutine
+    private Coroutine attackCoroutine; // Tracks the attacking coroutine
+    private Coroutine damageCoroutine; // Tracks the damage coroutine
 
     [Space]
 
-    //Events
-    public UnityEvent<EnemyScript> OnTrajectory;
-    public UnityEvent<EnemyScript> OnHit;
-    public UnityEvent<EnemyScript> OnCounterAttack;
+    // Unity Events
+    public UnityEvent<EnemyScript> OnTrajectory; // Event for moving toward an enemy
+    public UnityEvent<EnemyScript> OnHit; // Event when an enemy is hit
+    public UnityEvent<EnemyScript> OnCounterAttack; // Event when counter-attacking
 
-    int animationCount = 0;
-    string[] attacks;
+    // Internal variables
+    int animationCount = 0; // Counter for cycling attack animations
+    string[] attacks; // Array of attack animation triggers
 
     void Start()
     {
+        // Initialize references to components and managers
         enemyManager = FindObjectOfType<EnemyManager>();
         animator = GetComponent<Animator>();
         enemyDetection = GetComponentInChildren<EnemyDetection>();
@@ -52,87 +56,89 @@ public class CombatScript : MonoBehaviour
         impulseSource = GetComponentInChildren<CinemachineImpulseSource>();
     }
 
-    //This function gets called whenever the player inputs the punch action
+    // Checks whether an attack can be performed
     void AttackCheck()
     {
         if (isAttackingEnemy)
-            return;
+            return; // Exit if the player is already attacking
 
-        //Check to see if the detection behavior has an enemy set
+        // If no target is detected, pick a random enemy
         if (enemyDetection.CurrentTarget() == null)
         {
             if (enemyManager.AliveEnemyCount() == 0)
             {
-                Attack(null, 0);
+                Attack(null, 0); // Attack without a target if no enemies exist
                 return;
             }
             else
             {
-                lockedTarget = enemyManager.RandomEnemy();
+                lockedTarget = enemyManager.RandomEnemy(); // Select a random enemy
             }
         }
 
-        //If the player is moving the movement input, use the "directional" detection to determine the enemy
-        if (enemyDetection.InputMagnitude() > .2f)
+        // If the player is moving, use input direction to detect the nearest enemy
+        if (enemyDetection.InputMagnitude() > 0.2f)
             lockedTarget = enemyDetection.CurrentTarget();
 
-        //Extra check to see if the locked target was set
-        if(lockedTarget == null)
+        // As a fallback, pick a random enemy if no target is set
+        if (lockedTarget == null)
             lockedTarget = enemyManager.RandomEnemy();
 
-        //AttackTarget
+        // Proceed to attack the locked target
         Attack(lockedTarget, TargetDistance(lockedTarget));
     }
 
+    // Performs an attack on a specified target
     public void Attack(EnemyScript target, float distance)
     {
-        //Types of attack animation
+        // Define the attack animations
         attacks = new string[] { "AirKick", "AirKick2", "AirPunch", "AirKick3" };
 
-        //Attack nothing in case target is null
+        // If no target exists, perform a "ground punch"
         if (target == null)
         {
-            AttackType("GroundPunch", .2f, null, 0);
+            AttackType("GroundPunch", 0.2f, null, 0);
             return;
         }
 
+        // If the target is within range, select an appropriate attack animation
         if (distance < 15)
         {
-            animationCount = (int)Mathf.Repeat((float)animationCount + 1, (float)attacks.Length);
+            animationCount = (int)Mathf.Repeat((float)animationCount + 1, attacks.Length);
             string attackString = isLastHit() ? attacks[Random.Range(0, attacks.Length)] : attacks[animationCount];
-            AttackType(attackString, attackCooldown, target, .65f);
+            AttackType(attackString, attackCooldown, target, 0.65f);
         }
         else
         {
-            lockedTarget = null;
-            AttackType("GroundPunch", .2f, null, 0);
+            lockedTarget = null; // Clear the target if it's too far away
+            AttackType("GroundPunch", 0.2f, null, 0);
         }
 
-        // REMOVED BELOW CAUSE IT WAS NOT WORKING MUST FIX LATER
-
-        //Change impulse
+        // Apply a camera impulse effect based on distance
         impulseSource.GenerateImpulse(Mathf.Max(3, 1 * distance));
-
     }
 
+    // Executes a specific attack animation and handles attack-related logic
     void AttackType(string attackTrigger, float cooldown, EnemyScript target, float movementDuration)
     {
-        animator.SetTrigger(attackTrigger);
+        animator.SetTrigger(attackTrigger); // Trigger the attack animation
 
+        // Stop any existing attack coroutine
         if (attackCoroutine != null)
             StopCoroutine(attackCoroutine);
         attackCoroutine = StartCoroutine(AttackCoroutine(isLastHit() ? 1.5f : cooldown));
 
-        //Check if last enemy
+        // If this is the last enemy, execute the final blow cinematic
         if (isLastHit())
             StartCoroutine(FinalBlowCoroutine());
 
         if (target == null)
             return;
 
-        target.StopMoving();
-        MoveTorwardsTarget(target, movementDuration);
+        target.StopMoving(); // Stop the target's movement
+        MoveTorwardsTarget(target, movementDuration); // Move towards the target
 
+        // Coroutine for managing the attack state
         IEnumerator AttackCoroutine(float duration)
         {
             movementInput.acceleration = 0;
@@ -140,54 +146,56 @@ public class CombatScript : MonoBehaviour
             movementInput.enabled = false;
             yield return new WaitForSeconds(duration);
             isAttackingEnemy = false;
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(0.2f);
             movementInput.enabled = true;
-            LerpCharacterAcceleration();
+            LerpCharacterAcceleration(); // Smoothly restore acceleration
         }
 
+        // Coroutine for the final cinematic blow
         IEnumerator FinalBlowCoroutine()
         {
-            Time.timeScale = .5f;
-            lastHitCamera.SetActive(true);
+            Time.timeScale = 0.5f; // Slow down time
+            lastHitCamera.SetActive(true); // Activate the cinematic camera
             lastHitFocusObject.position = lockedTarget.transform.position;
-            yield return new WaitForSecondsRealtime(2);
+            yield return new WaitForSecondsRealtime(2); // Wait in real-time
             lastHitCamera.SetActive(false);
-            Time.timeScale = 1f;
+            Time.timeScale = 1f; // Reset time scale
         }
     }
 
+    // Moves the player toward the target enemy
     void MoveTorwardsTarget(EnemyScript target, float duration)
     {
-        print("Move to enemy");
-        OnTrajectory.Invoke(target);
-        transform.DOLookAt(target.transform.position, .2f);
-        transform.DOMove(TargetOffset(target.transform), duration);
+        OnTrajectory.Invoke(target); // Trigger the trajectory event
+        transform.DOLookAt(target.transform.position, 0.2f); // Rotate toward the target
+        transform.DOMove(TargetOffset(target.transform), duration); // Move to the target's position
     }
 
+    // Checks whether the player should counter an enemy's attack
     void CounterCheck()
     {
-        //Initial check
         if (isCountering || isAttackingEnemy || !enemyManager.AnEnemyIsPreparingAttack())
             return;
 
-        lockedTarget = ClosestCounterEnemy();
+        lockedTarget = ClosestCounterEnemy(); // Get the closest enemy preparing an attack
         OnCounterAttack.Invoke(lockedTarget);
 
         if (TargetDistance(lockedTarget) > 2)
         {
-            Attack(lockedTarget, TargetDistance(lockedTarget));
+            Attack(lockedTarget, TargetDistance(lockedTarget)); // Attack instead if the enemy is far
             return;
         }
 
-        float duration = .2f;
-        animator.SetTrigger("Dodge");
-        transform.DOLookAt(lockedTarget.transform.position, .2f);
+        float duration = 0.2f;
+        animator.SetTrigger("Dodge"); // Trigger the dodge animation
+        transform.DOLookAt(lockedTarget.transform.position, 0.2f);
         transform.DOMove(transform.position + lockedTarget.transform.forward, duration);
 
         if (counterCoroutine != null)
             StopCoroutine(counterCoroutine);
         counterCoroutine = StartCoroutine(CounterCoroutine(duration));
 
+        // Coroutine for managing counter state
         IEnumerator CounterCoroutine(float duration)
         {
             isCountering = true;
@@ -195,50 +203,52 @@ public class CombatScript : MonoBehaviour
             yield return new WaitForSeconds(duration);
             Attack(lockedTarget, TargetDistance(lockedTarget));
             isCountering = false;
-
         }
     }
 
+    // Returns the distance between the player and the target
     float TargetDistance(EnemyScript target)
     {
         return Vector3.Distance(transform.position, target.transform.position);
     }
 
+    // Offsets the target's position to prevent direct overlap
     public Vector3 TargetOffset(Transform target)
     {
-        Vector3 position;
-        position = target.position;
-        return Vector3.MoveTowards(position, transform.position, .95f);
+        Vector3 position = target.position;
+        return Vector3.MoveTowards(position, transform.position, 0.95f);
     }
 
+    // Event triggered when the player hits an enemy
     public void HitEvent()
     {
         if (lockedTarget == null || enemyManager.AliveEnemyCount() == 0)
             return;
 
         OnHit.Invoke(lockedTarget);
-
-        //Polish
-        punchParticle.PlayParticleAtPosition(punchPosition.position);
+        punchParticle.PlayParticleAtPosition(punchPosition.position); // Play punch effects
     }
 
+    // Event triggered when the player takes damage
     public void DamageEvent()
     {
-        animator.SetTrigger("Hit");
+        animator.SetTrigger("Hit"); // Trigger the hit animation
 
         if (damageCoroutine != null)
             StopCoroutine(damageCoroutine);
         damageCoroutine = StartCoroutine(DamageCoroutine());
 
+        // Coroutine for managing damage state
         IEnumerator DamageCoroutine()
         {
             movementInput.enabled = false;
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(0.5f);
             movementInput.enabled = true;
             LerpCharacterAcceleration();
         }
     }
 
+    // Finds the closest enemy that is preparing to attack
     EnemyScript ClosestCounterEnemy()
     {
         float minDistance = 100;
@@ -248,46 +258,40 @@ public class CombatScript : MonoBehaviour
         {
             EnemyScript enemy = enemyManager.allEnemies[i].enemyScript;
 
-            if (enemy.IsPreparingAttack())
+            if (enemy.IsPreparingAttack() && Vector3.Distance(transform.position, enemy.transform.position) < minDistance)
             {
-                if (Vector3.Distance(transform.position, enemy.transform.position) < minDistance)
-                {
-                    minDistance = Vector3.Distance(transform.position, enemy.transform.position);
-                    finalIndex = i;
-                }
+                minDistance = Vector3.Distance(transform.position, enemy.transform.position);
+                finalIndex = i;
             }
         }
 
         return enemyManager.allEnemies[finalIndex].enemyScript;
-
     }
 
+    // Smoothly restores the player's acceleration
     void LerpCharacterAcceleration()
     {
         movementInput.acceleration = 0;
-        DOVirtual.Float(0, 1, .6f, ((acceleration)=> movementInput.acceleration = acceleration));
+        DOVirtual.Float(0, 1, 0.6f, (acceleration) => movementInput.acceleration = acceleration);
     }
 
+    // Checks if the current attack is the "last hit"
     bool isLastHit()
     {
-        if (lockedTarget == null)
-            return false;
-
-        return enemyManager.AliveEnemyCount() == 1 && lockedTarget.health <= 1;
+        return lockedTarget != null && enemyManager.AliveEnemyCount() == 1 && lockedTarget.health <= 1;
     }
 
     #region Input
 
     private void OnCounter()
     {
-        CounterCheck();
+        CounterCheck(); // Handle counter input
     }
 
     private void OnAttack()
     {
-        AttackCheck();
+        AttackCheck(); // Handle attack input
     }
 
     #endregion
-
 }
