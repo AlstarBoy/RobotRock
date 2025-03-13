@@ -7,8 +7,8 @@ public class MouseMover : MonoBehaviour
 
     // Highlight Block
     public GameObject hBlock;
-    [SerializeField] private bool blockUpdate;
-    [SerializeField] private Vector3 previousPosition = Vector3.zero;
+    //[SerializeField] private bool blockUpdate;
+    //[SerializeField] private Vector3 previousPosition = Vector3.zero;
 
     void Update()
     {
@@ -36,12 +36,14 @@ public class MouseMover : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         print("move");
-        blockUpdate = true;
-        hBlock.transform.position = other.transform.position;
+        if (other.CompareTag("tile"))
+        {
+            hBlock.transform.position = other.transform.position;
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
-        blockUpdate = false;
+
     }
 }
