@@ -4,18 +4,22 @@ using static UnityEngine.GraphicsBuffer;
 
 public class placingObject : MonoBehaviour
 {
-    public bool isPlaced = false;
     public GameObject mousePos;
+    [Header("Placed Variables")]
+    private bool idleRot = false;
+    public bool isPlaced = false;
     public GameController gameC;
-
+    private Vector3 placePosition;
+    [Header("Falling Variables")]
     [SerializeField] private float baseMoveSpeed = 3f; // Base speed for movement
     [SerializeField] private float accelerationFactor = 6f; // Multiplier for acceleration
-    [SerializeField] private float fallSpeed = 1f; // Speed of falling (Y axis)
+    [SerializeField] private float fallSpeed = 0.1f; // Speed of falling (Y axis)
     [SerializeField] private float groundY = 0f; // Y position to stop falling
     [SerializeField] private float rotationSpeed = 5f; // Speed of rotation adjustment
     [SerializeField] private float idleRotationSpeed = 5f; // Speed of rotation adjustment
-    private bool idleRot = false;
-    private Vector3 placePosition;
+
+    
+
 
     // Update is called once per frame
     void Update()
@@ -41,12 +45,12 @@ public class placingObject : MonoBehaviour
 
     }
 
-    void placeOnGrid()
-    {
+    public void placeOnGrid()
+    { 
         if (!isPlaced)
         {
             placePosition = mousePos.transform.position;
-            transform.position = new Vector3(placePosition.x, transform.position.y, placePosition.z);
+            transform.position = new Vector3(placePosition.x, 0, placePosition.z);
             isPlaced = true;
             gameC.objectPlaced = true;
         }

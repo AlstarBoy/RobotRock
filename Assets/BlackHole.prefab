@@ -50,7 +50,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -68,11 +68,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5683a9933f45fa74387883a60e39e3db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlaced: 0
   planetTier: 0
   size: 0
   growSpeed: 0
   growTime: 0
+  canGrow: 0
+  targetScale: {x: 2, y: 2, z: 2}
+  duration: 20
+  loop: 0
 --- !u!114 &2238967280998114012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,15 +88,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e1118cb0729f9b42a153c98ebf09cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlaced: 0
   mousePos: {fileID: 0}
+  isPlaced: 0
   gameC: {fileID: 0}
   baseMoveSpeed: 3
   accelerationFactor: 6
-  fallSpeed: 10
+  fallSpeed: 1
   groundY: 0
   rotationSpeed: 10
-  returnSpeed: 3
+  idleRotationSpeed: 5
 --- !u!1 &4361112844404618975
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2755866226826268706}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Art
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
