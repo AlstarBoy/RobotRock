@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class ItemStats : MonoBehaviour
 {
@@ -29,17 +30,20 @@ public class ItemStats : MonoBehaviour
         {
             canGrow = true;
             print("placed");
-            growOverTime(growSpeed);
+            StartCoroutine(Grow(new Vector3(2f, 2f, 2f), 60f));
         }    
     }
 
+
+
     void growOverTime(float speed)
     {
-        if (canGrow == true)
+        if (canGrow)
         {
             if (elapsedTime < duration)
             {
-                transform.localScale = Vector3.Lerp(transform.localScale, targetScale, elapsedTime / duration);
+                print("Grow");
+                transform.localScale = Vector3.MoveTowards(transform.localScale, targetScale, speed * Time.deltaTime);
                 elapsedTime += Time.deltaTime;
             }
             else if (loop)
@@ -49,4 +53,20 @@ public class ItemStats : MonoBehaviour
             }
         }
     }
+
+    IEnumerator Grow(Vector3 targetScale, float duration)
+    {
+        Vector3 startScale = transform.localScale; // Capture the initial scale
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait for the next frame
+        }
+
+        transform.localScale = targetScale; // Ensure it reaches exact size
+    }
 }
+

@@ -17,8 +17,7 @@ public class placingObject : MonoBehaviour
     [SerializeField] private float groundY = 0f; // Y position to stop falling
     [SerializeField] private float rotationSpeed = 5f; // Speed of rotation adjustment
     [SerializeField] private float idleRotationSpeed = 5f; // Speed of rotation adjustment
-
-    
+    public bool fastPlace = false;
 
 
     // Update is called once per frame
@@ -42,7 +41,17 @@ public class placingObject : MonoBehaviour
         {
             transform.Rotate(0, 0, idleRotationSpeed * Time.deltaTime);
         }
+        if (fastPlace)
+        {
+            // Apply falling effect - moving down smoothly
+            float newY = Mathf.Max(transform.position.y - Mathf.Abs(fallSpeed) * 50f * Time.deltaTime, groundY);
+            transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+        }
+    }
 
+    public void placeObjectSmoothly()
+    {
+        fastPlace = true;
     }
 
     public void placeOnGrid()

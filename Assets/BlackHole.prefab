@@ -70,11 +70,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetTier: 0
   size: 0
-  growSpeed: 0
+  growSpeed: 0.03
   growTime: 0
   canGrow: 0
   targetScale: {x: 2, y: 2, z: 2}
-  duration: 20
+  duration: 60
   loop: 0
 --- !u!114 &2238967280998114012
 MonoBehaviour:
@@ -97,6 +97,7 @@ MonoBehaviour:
   groundY: 0
   rotationSpeed: 10
   idleRotationSpeed: 5
+  fastPlace: 0
 --- !u!1 &4361112844404618975
 GameObject:
   m_ObjectHideFlags: 0

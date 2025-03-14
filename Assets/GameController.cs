@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour
     {
         if (context.performed)
         {
-            currentObject.GetComponent<placingObject>().placeOnGrid();
+            currentObject.GetComponent<placingObject>().placeObjectSmoothly();
         }
     }
 
