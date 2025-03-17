@@ -69,13 +69,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetTier: 0
-  size: 0
-  growSpeed: 0.03
-  growTime: 0
+  maxPlanetTier: 2
+  sizes:
+  - {x: 2, y: 2, z: 2}
+  - {x: 3, y: 3, z: 3}
+  - {x: 4, y: 4, z: 4}
+  sizeTime:
+  - 60
+  - 90
+  - 120
   canGrow: 0
-  targetScale: {x: 2, y: 2, z: 2}
-  duration: 60
-  loop: 0
 --- !u!114 &2238967280998114012
 MonoBehaviour:
   m_ObjectHideFlags: 0

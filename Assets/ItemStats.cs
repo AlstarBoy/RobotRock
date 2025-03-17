@@ -5,68 +5,49 @@ public class ItemStats : MonoBehaviour
 {
     [Header("Stats")]
     public int planetTier;
-    public float size;
-    public float growSpeed = 0.1f;
-    public float growTime;
+    public int maxPlanetTier;
+    public Vector3[] sizes;
+    public float[] sizeTime;
     public bool canGrow = false;
     private placingObject pObject;
 
-    [Header("Grow Timer")]
-    public Vector3 targetScale = new Vector3(2f, 2f, 2f);
-    public float duration = 20f;
-    private float elapsedTime = 0f;
-    public bool loop = false;
+    private bool isGrowing = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         pObject = GetComponent<placingObject>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (pObject.isPlaced)
+        if (pObject.isPlaced && !isGrowing && planetTier <= maxPlanetTier)
         {
             canGrow = true;
             print("placed");
-            StartCoroutine(Grow(new Vector3(2f, 2f, 2f), 60f));
-        }    
-    }
-
-
-
-    void growOverTime(float speed)
-    {
-        if (canGrow)
-        {
-            if (elapsedTime < duration)
-            {
-                print("Grow");
-                transform.localScale = Vector3.MoveTowards(transform.localScale, targetScale, speed * Time.deltaTime);
-                elapsedTime += Time.deltaTime;
-            }
-            else if (loop)
-            {
-                elapsedTime = 0f;
-                (transform.localScale, targetScale) = (targetScale, transform.localScale);
-            }
+            StartCoroutine(Grow(sizes[planetTier], sizeTime[planetTier]));
         }
     }
 
     IEnumerator Grow(Vector3 targetScale, float duration)
     {
-        Vector3 startScale = transform.localScale; // Capture the initial scale
+        isGrowing = true; // Prevent multiple coroutine starts
+        Vector3 startScale = transform.localScale;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
             transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
-            yield return null; // Wait for the next frame
+            yield return null;
         }
 
         transform.localScale = targetScale; // Ensure it reaches exact size
+        isGrowing = false;
+
+        if (planetTier < maxPlanetTier)
+        {
+            planetTier++; // Increase the tier only after growth is complete
+        }
     }
 }
 
