@@ -37,11 +37,14 @@ public class ItemStats : MonoBehaviour
         Vector3 startScale = transform.localScale;
         float elapsedTime = 0f;
 
-        while (elapsedTime < duration)
+        if (transform.localScale.x < targetScale.x && transform.localScale.y < targetScale.y && transform.localScale.z < targetScale.z)
         {
-            transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            while (elapsedTime < duration)
+            {
+                transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
         }
 
         transform.localScale = targetScale;
@@ -55,11 +58,31 @@ public class ItemStats : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        print("Trigger enter");
         ItemStats otherPlanet = other.GetComponent<ItemStats>();
+        print(otherPlanet);
         if (otherPlanet != null && otherPlanet != this)
         {
+            print("planet checks");
             if (otherPlanet.transform.localScale.magnitude < transform.localScale.magnitude) // Is smaller
             {
+                print("Other Planet is smaller");
+                StartCoroutine(AbsorbPlanet(otherPlanet));
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        print("Trigger stay");
+        ItemStats otherPlanet = other.GetComponent<ItemStats>();
+        print(otherPlanet);
+        if (otherPlanet != null && otherPlanet != this)
+        {
+            print("stay planet checks");
+            if (otherPlanet.transform.localScale.magnitude < transform.localScale.magnitude) // Is smaller
+            {
+                print("stay Other Planet is smaller");
                 StartCoroutine(AbsorbPlanet(otherPlanet));
             }
         }

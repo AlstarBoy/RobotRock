@@ -18,7 +18,7 @@ public class placingObject : MonoBehaviour
     [SerializeField] private float rotationSpeed = 5f; // Speed of rotation adjustment
     [SerializeField] private float idleRotationSpeed = 5f; // Speed of rotation adjustment
     public bool fastPlace = false;
-
+    public GameObject artWork;
 
     // Update is called once per frame
     void Update()
@@ -39,7 +39,7 @@ public class placingObject : MonoBehaviour
         }
         if (idleRot)
         {
-            transform.Rotate(0, 0, idleRotationSpeed * Time.deltaTime);
+            artWork.transform.Rotate(0, idleRotationSpeed * Time.deltaTime, 0);
         }
         if (fastPlace)
         {

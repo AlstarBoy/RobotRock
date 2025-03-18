@@ -47,7 +47,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 8486305031547561713}
   - component: {fileID: 858723551665076070}
   - component: {fileID: 2238967280998114012}
+  - component: {fileID: 7801640710198645289}
   m_Layer: 0
   m_Name: BlackHole
   m_TagString: Untagged
@@ -157,6 +158,34 @@ MonoBehaviour:
   rotationSpeed: 10
   idleRotationSpeed: 5
   fastPlace: 0
+  artWork: {fileID: 8849023849835523446}
+--- !u!54 &7801640710198645289
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2563035371393664099}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4361112844404618975
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +284,6 @@ GameObject:
   - component: {fileID: 2721590799054222387}
   - component: {fileID: 1852356769279806043}
   - component: {fileID: 6034075508966021468}
-  - component: {fileID: 2693978567283101086}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -331,27 +359,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &2693978567283101086
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6944283854077575295}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8526760158622581663
 GameObject:
   m_ObjectHideFlags: 0
