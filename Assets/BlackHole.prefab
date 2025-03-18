@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 7801640710198645289}
   m_Layer: 0
   m_Name: BlackHole
-  m_TagString: Untagged
+  m_TagString: Celestial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   - 90
   - 120
   canGrow: 0
-  absorptionSpeed: 0.5
+  absorptionSpeed: 0.1
   innerTrigger: {fileID: 1906267920258846841}
 --- !u!114 &2238967280998114012
 MonoBehaviour:

@@ -58,32 +58,29 @@ public class ItemStats : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("Trigger enter");
-        ItemStats otherPlanet = other.GetComponent<ItemStats>();
-        print(otherPlanet);
-        if (otherPlanet != null && otherPlanet != this)
-        {
-            print("planet checks");
-            if (otherPlanet.transform.localScale.magnitude < transform.localScale.magnitude) // Is smaller
-            {
-                print("Other Planet is smaller");
-                StartCoroutine(AbsorbPlanet(otherPlanet));
-            }
-        }
+        absorptionTrigger(other);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        print("Trigger stay");
-        ItemStats otherPlanet = other.GetComponent<ItemStats>();
-        print(otherPlanet);
-        if (otherPlanet != null && otherPlanet != this)
+        absorptionTrigger(other);
+    }
+
+    private void absorptionTrigger(Collider other)
+    {
+        if (other.CompareTag("Celestial") && other.GetComponent<placingObject>().isPlaced == true)
         {
-            print("stay planet checks");
-            if (otherPlanet.transform.localScale.magnitude < transform.localScale.magnitude) // Is smaller
+            print("Trigger enter");
+            ItemStats otherPlanet = other.GetComponent<ItemStats>();
+            print(otherPlanet);
+            if (otherPlanet != null && otherPlanet != this)
             {
-                print("stay Other Planet is smaller");
-                StartCoroutine(AbsorbPlanet(otherPlanet));
+                print("planet checks");
+                if (otherPlanet.transform.localScale.magnitude < transform.localScale.magnitude) // Is smaller
+                {
+                    print("Other Planet is smaller");
+                    StartCoroutine(AbsorbPlanet(otherPlanet));
+                }
             }
         }
     }
