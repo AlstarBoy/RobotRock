@@ -34,7 +34,7 @@ public class placingObject : MonoBehaviour
         }
         if (isPlaced && idleRot == false)
         {
-            transform.rotation = Quaternion.Euler(90f, 0, 0f);
+            transform.rotation = Quaternion.Euler(-90f, 0, 0f);
             idleRot = true;
         }
         if (idleRot)

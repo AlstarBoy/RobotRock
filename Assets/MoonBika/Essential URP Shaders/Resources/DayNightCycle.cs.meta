@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 580fe94bd5a404545b7c065bf9085919
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Essential URP Shaders/Resources/DayNightCycle.cs
+  uploadId: 698221

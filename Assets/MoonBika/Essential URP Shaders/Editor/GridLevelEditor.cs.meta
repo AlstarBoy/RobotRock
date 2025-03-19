@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 711c45c13ea95504abe59861c4853e61
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Essential URP Shaders/Editor/GridLevelEditor.cs
+  uploadId: 698221

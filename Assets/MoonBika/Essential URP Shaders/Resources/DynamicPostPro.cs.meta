@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 2065a1d4a7543564eb2f1ffa7d9f1881
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 200
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Essential URP Shaders/Resources/DynamicPostPro.cs
+  uploadId: 698221

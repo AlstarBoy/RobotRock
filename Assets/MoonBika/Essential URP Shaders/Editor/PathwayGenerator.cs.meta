@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 58281e8e1a4740e45a91ff03af74ebcf
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Essential URP Shaders/Editor/PathwayGenerator.cs
+  uploadId: 698221
