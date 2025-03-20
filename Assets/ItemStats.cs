@@ -13,6 +13,11 @@ public class ItemStats : MonoBehaviour
 
     private bool isGrowing = false;
     private bool isAbsorbing = false; // Flag to disable growth during absorption
+    private bool isRemoveTier = false;
+
+    public bool allowedToGrow;
+    public bool allowedToAbsorb;
+    public bool allowedToRemoveTier; 
 
     [Header("Absorption")]
     public float absorptionSpeed = 0.5f;
@@ -26,7 +31,7 @@ public class ItemStats : MonoBehaviour
     void Update()
     {
         // Only grow if the object is placed, not growing, not absorbing, and hasn't reached the max tier
-        if (pObject.isPlaced && !isGrowing && !isAbsorbing && planetTier <= maxPlanetTier)
+        if (pObject.isPlaced && !isGrowing && !isAbsorbing && planetTier <= maxPlanetTier && allowedToGrow)
         {
             canGrow = true;
             StartCoroutine(Grow(sizes[planetTier], sizeTime[planetTier]));
@@ -45,7 +50,7 @@ public class ItemStats : MonoBehaviour
             while (elapsedTime < duration)
             {
                 // If absorption begins, exit the growth process so it doesn't override absorption changes
-                if (isAbsorbing)
+                if (isAbsorbing || isRemoveTier)
                 {
                     isGrowing = false;
                     yield break;
@@ -67,27 +72,32 @@ public class ItemStats : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        AbsorptionTrigger(other);
-
-        if (other.gameObject.CompareTag("Asteroid"))
+        if (other.gameObject.CompareTag("Asteroid") && allowedToRemoveTier)
         {
             RemoveTier();
+        }
+        else
+        {
+            AbsorptionTrigger(other);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        AbsorptionTrigger(other);
-
-        if (other.gameObject.CompareTag("Asteroid"))
+        if (other.gameObject.CompareTag("Asteroid") && allowedToRemoveTier)
         {
             RemoveTier();
+        }
+        else
+        {
+            AbsorptionTrigger(other);
         }
     }
 
     private void AbsorptionTrigger(Collider other)
     {
-        if (other.CompareTag("Celestial") && other.GetComponent<placingObject>().isPlaced)
+        if (other.CompareTag("Asteroid") && other.GetComponent<placingObject>().isPlaced && allowedToAbsorb ||
+            other.CompareTag("Celestial") && other.GetComponent<placingObject>().isPlaced && allowedToAbsorb)
         {
             ItemStats otherPlanet = other.GetComponent<ItemStats>();
             if (otherPlanet != null && otherPlanet != this)
@@ -123,8 +133,7 @@ public class ItemStats : MonoBehaviour
             // Check if it reaches the inner trigger
             if (Vector3.Distance(targetPlanet.transform.position, innerTrigger.position) < 0.1f)
             {
-                // Transfer a portion (50%) of the original scale of the target to this planet
-                transform.localScale += originalTargetScale * 0.5f;
+                transform.localScale += targetPlanet.transform.localScale;
 
                 // Destroy the absorbed planet
                 Destroy(targetPlanet.gameObject);
@@ -142,10 +151,12 @@ public class ItemStats : MonoBehaviour
         // Only remove a tier if the current tier is above 0
         if (planetTier > 0)
         {
+            isRemoveTier = true;
             planetTier--;
             // Adjust the scale to match the previous tier's scale from the sizes array.
             transform.localScale = sizes[planetTier];
             Debug.Log("Planet tier removed. New tier: " + planetTier);
+            isRemoveTier = false;
         }
         else
         {

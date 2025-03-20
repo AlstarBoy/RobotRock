@@ -46,9 +46,12 @@ public class GameController : MonoBehaviour
         if (currentObject == null || objectPlaced == true)
         {
             currentObject = nextObject;
-            if (nextObject == null)
+            if (nextObject == null || objectPlaced == true)
             {
-                nextObject = celestialObjects[Random.Range(0, celestialObjects.Length)];
+
+                int randInt = Random.Range(0, celestialObjects.Length);
+                print("celestial "+randInt);
+                nextObject = celestialObjects[randInt];
             }
             currentObject = Instantiate(currentObject, startPos.transform.position, Quaternion.identity);
             currentObject.GetComponent<placingObject>().mousePos = startPos;

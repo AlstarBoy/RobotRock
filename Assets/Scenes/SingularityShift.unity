@@ -3335,7 +3335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7933641147708578581, guid: 0fb33733244cae144a0ae94bcb242e8b, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.01
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7933641147708578581, guid: 0fb33733244cae144a0ae94bcb242e8b, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
@@ -7747,6 +7747,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   celestialObjects:
+  - {fileID: 2563035371393664099, guid: c36d392fe4fb1a14bac02d730de6be16, type: 3}
+  - {fileID: 2563035371393664099, guid: 0e19fde2f74de8346825ce89ecdc67de, type: 3}
   - {fileID: 2563035371393664099, guid: 3c3a4b16f01a6e64a92ffde599414e5d, type: 3}
   nextObject: {fileID: 0}
   currentObject: {fileID: 0}

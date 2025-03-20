@@ -325,8 +325,8 @@ GameObject:
   - component: {fileID: 2238967280998114012}
   - component: {fileID: 7801640710198645289}
   m_Layer: 0
-  m_Name: Asteroids
-  m_TagString: Celestial
+  m_Name: Asteroid
+  m_TagString: Asteroid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -390,6 +390,8 @@ MonoBehaviour:
   sizeTime:
   - 0
   canGrow: 0
+  allowedToGrow: 0
+  allowedToAbsorb: 0
   absorptionSpeed: 0
   innerTrigger: {fileID: 1906267920258846841}
 --- !u!114 &2238967280998114012
