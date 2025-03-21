@@ -17,4 +17,9 @@ public class ScoreSystem : MonoBehaviour
     {
         scoreUI.text = "Score: " + score;
     }
+
+    public void IncreaseScore(float score)
+    { 
+        this.score += score; 
+    }
 }

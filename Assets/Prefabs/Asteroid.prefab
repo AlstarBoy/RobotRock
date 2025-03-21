@@ -392,6 +392,7 @@ MonoBehaviour:
   canGrow: 0
   allowedToGrow: 0
   allowedToAbsorb: 0
+  allowedToRemoveTier: 0
   absorptionSpeed: 0
   innerTrigger: {fileID: 1906267920258846841}
 --- !u!114 &2238967280998114012

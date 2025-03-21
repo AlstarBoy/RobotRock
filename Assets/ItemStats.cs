@@ -23,8 +23,18 @@ public class ItemStats : MonoBehaviour
     public float absorptionSpeed = 0.5f;
     public Transform innerTrigger; // Assign this to a child trigger in the Inspector
 
-    void Start()
+    [Header("Score")]
+    private ScoreSystem scoreSystem;
+    public int scoreWhenTierUp;
+    public int scoreWhenAbsorb;
+
+    void Awake()
     {
+        if (scoreSystem == null)
+        {
+            scoreSystem = GameObject.Find("=== Score System").GetComponent<ScoreSystem>();
+        }
+
         pObject = GetComponent<placingObject>();
     }
 
@@ -66,6 +76,7 @@ public class ItemStats : MonoBehaviour
 
         if (planetTier < maxPlanetTier)
         {
+            scoreSystem.IncreaseScore(scoreWhenTierUp * (planetTier +1));
             planetTier++;
         }
     }
@@ -76,22 +87,20 @@ public class ItemStats : MonoBehaviour
         {
             RemoveTier();
         }
-        else
-        {
-            AbsorptionTrigger(other);
-        }
+        
+        AbsorptionTrigger(other);
+
     }
 
+    // THIS IS A PROBLEM
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Asteroid") && allowedToRemoveTier)
         {
             RemoveTier();
         }
-        else
-        {
-            AbsorptionTrigger(other);
-        }
+        
+        AbsorptionTrigger(other);
     }
 
     private void AbsorptionTrigger(Collider other)
@@ -130,15 +139,26 @@ public class ItemStats : MonoBehaviour
             // Gradually shrink the smaller planet
             targetPlanet.transform.localScale *= (1 - Time.deltaTime * absorptionSpeed);
 
-            // Check if it reaches the inner trigger
-            if (Vector3.Distance(targetPlanet.transform.position, innerTrigger.position) < 0.1f)
+            if (planetTier !<= maxPlanetTier)
             {
-                transform.localScale += targetPlanet.transform.localScale;
-
+                // Check if it reaches the inner trigger
+                if (Vector3.Distance(targetPlanet.transform.position, innerTrigger.position) < 0.1f)
+                {
+                    transform.localScale += new Vector3 (1f,1f,1f);
+                    scoreSystem.IncreaseScore(scoreWhenAbsorb * (planetTier + 1));
+                    // Destroy the absorbed planet
+                    Destroy(targetPlanet.gameObject);
+                    break;
+                }
+            }
+            else
+            {
+                scoreSystem.IncreaseScore(scoreWhenAbsorb * (planetTier + 1));
                 // Destroy the absorbed planet
                 Destroy(targetPlanet.gameObject);
                 break;
             }
+
             yield return null;
         }
 
@@ -149,7 +169,7 @@ public class ItemStats : MonoBehaviour
     private void RemoveTier()
     {
         // Only remove a tier if the current tier is above 0
-        if (planetTier > 0)
+        if (planetTier >= 0)
         {
             isRemoveTier = true;
             planetTier--;

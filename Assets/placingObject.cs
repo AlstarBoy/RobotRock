@@ -20,6 +20,19 @@ public class placingObject : MonoBehaviour
     public bool fastPlace = false;
     public GameObject artWork;
 
+    [Header("Score")]
+    private ScoreSystem scoreSystem;
+    public int scoreWhenPlaced = 50;
+
+
+    private void Awake()
+    {
+        if (scoreSystem == null)
+        {
+            scoreSystem = GameObject.Find("=== Score System").GetComponent<ScoreSystem>();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -62,6 +75,7 @@ public class placingObject : MonoBehaviour
             transform.position = new Vector3(placePosition.x, 0, placePosition.z);
             isPlaced = true;
             gameC.objectPlaced = true;
+            scoreSystem.IncreaseScore(scoreWhenPlaced);
         }
     }
 

@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetTier: 0
-  maxPlanetTier: 2
+  maxPlanetTier: 9
   sizes:
   - {x: 2, y: 2, z: 2}
   - {x: 3, y: 3, z: 3}
@@ -242,7 +242,9 @@ MonoBehaviour:
   allowedToAbsorb: 1
   allowedToRemoveTier: 0
   absorptionSpeed: 0.1
-  innerTrigger: {fileID: 0}
+  innerTrigger: {fileID: 1906267920258846841}
+  scoreWhenTierUp: 100
+  scoreWhenAbsorb: 10
 --- !u!114 &2238967280998114012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +268,7 @@ MonoBehaviour:
   idleRotationSpeed: 5
   fastPlace: 0
   artWork: {fileID: 8849023849835523446}
+  scoreWhenPlaced: 50
 --- !u!54 &7801640710198645289
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -335,6 +338,8 @@ MonoBehaviour:
   allowedToRemoveTier: 1
   absorptionSpeed: 0.1
   innerTrigger: {fileID: 0}
+  scoreWhenTierUp: 0
+  scoreWhenAbsorb: 0
 --- !u!1 &4361112844404618975
 GameObject:
   m_ObjectHideFlags: 0
