@@ -10,6 +10,8 @@ public class placingObject : MonoBehaviour
     public bool isPlaced = false;
     public GameController gameC;
     private Vector3 placePosition;
+    public SphereCollider sCol;
+    public BoxCollider bCol;
     [Header("Falling Variables")]
     [SerializeField] private float baseMoveSpeed = 3f; // Base speed for movement
     [SerializeField] private float accelerationFactor = 6f; // Multiplier for acceleration
@@ -75,6 +77,8 @@ public class placingObject : MonoBehaviour
             transform.position = new Vector3(placePosition.x, 0, placePosition.z);
             isPlaced = true;
             gameC.objectPlaced = true;
+            bCol.enabled = true;
+            sCol.enabled = true;
             scoreSystem.IncreaseScore(scoreWhenPlaced);
         }
     }

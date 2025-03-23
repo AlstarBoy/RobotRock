@@ -136,7 +136,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.33
   m_Center: {x: 0, y: 0, z: 0}
@@ -197,7 +197,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -241,6 +241,7 @@ MonoBehaviour:
   allowedToGrow: 1
   allowedToAbsorb: 1
   allowedToRemoveTier: 0
+  allowedToAbsorbAsteroid: 1
   absorptionSpeed: 0.1
   innerTrigger: {fileID: 1906267920258846841}
   scoreWhenTierUp: 100
@@ -260,6 +261,8 @@ MonoBehaviour:
   mousePos: {fileID: 0}
   isPlaced: 0
   gameC: {fileID: 0}
+  sCol: {fileID: 744333640873518371}
+  bCol: {fileID: 8486305031547561713}
   baseMoveSpeed: 3
   accelerationFactor: 6
   fallSpeed: 1
@@ -336,6 +339,7 @@ MonoBehaviour:
   allowedToGrow: 1
   allowedToAbsorb: 1
   allowedToRemoveTier: 1
+  allowedToAbsorbAsteroid: 0
   absorptionSpeed: 0.1
   innerTrigger: {fileID: 0}
   scoreWhenTierUp: 0
