@@ -18,7 +18,6 @@ public class ItemStats : MonoBehaviour
     public bool allowedToGrow;
     public bool allowedToAbsorb;
     public bool allowedToRemoveTier;
-    public bool allowedToAbsorbAsteroid;
 
     [Header("Absorption")]
     public float absorptionSpeed = 0.5f;
@@ -93,11 +92,6 @@ public class ItemStats : MonoBehaviour
     // We use OnTriggerEnter only to avoid repeated calls.
     private void OnTriggerEnter(Collider other)
     {
-        // If colliding with an asteroid and removal is allowed, remove a tier.
-        if (other.gameObject.CompareTag("Asteroid") && allowedToRemoveTier)
-        {
-            RemoveTier();
-        }
 
         // Handle absorption for both asteroids (if allowed) and Celestial objects.
         AbsorptionTrigger(other);
@@ -105,7 +99,7 @@ public class ItemStats : MonoBehaviour
 
     private void AbsorptionTrigger(Collider other)
     {
-        if ((other.CompareTag("Asteroid") && other.GetComponent<placingObject>().isPlaced && allowedToAbsorb && allowedToAbsorbAsteroid) ||
+        if ((other.CompareTag("Asteroid") && other.GetComponent<placingObject>().isPlaced && allowedToAbsorb) ||
             (other.CompareTag("Celestial") && other.GetComponent<placingObject>().isPlaced && allowedToAbsorb))
         {
             ItemStats otherPlanet = other.GetComponent<ItemStats>();
@@ -139,10 +133,14 @@ public class ItemStats : MonoBehaviour
             // When the target reaches the inner trigger zone, perform the absorption.
             if (Vector3.Distance(targetPlanet.transform.position, innerTrigger.position) < 0.1f)
             {
-                // Instead of adding a fixed vector, we now check if we can go to the next tier.
-                if (planetTier < maxPlanetTier - 1) // There is a next tier available
+                // If colliding with an asteroid and removal is allowed, remove a tier.
+                if (targetPlanet.gameObject.CompareTag("Asteroid") && allowedToRemoveTier)
                 {
-                    planetTier++;
+                    RemoveTier();
+                }
+                // Instead of adding a fixed vector, we now check if we can go to the next tier.
+                else if (planetTier < maxPlanetTier - 1) // There is a next tier available
+                {
                     // Snap the absorber's scale to the next defined size.
                     transform.localScale = sizes[planetTier];
                     scoreSystem.IncreaseScore(scoreWhenAbsorb * (planetTier + 1));
@@ -172,7 +170,7 @@ public class ItemStats : MonoBehaviour
             isRemoveTier = true;
             planetTier--;
             // Snap scale to the previous tier's size.
-            transform.localScale = sizes[planetTier];
+            transform.localScale = sizes[planetTier-1];
             Debug.Log("Planet tier removed. New tier: " + planetTier);
             isRemoveTier = false;
         }
