@@ -7837,10 +7837,34 @@ MonoBehaviour:
   objectPlaced: 0
   timerUI: {fileID: 427067021}
   myTime: 0
-  gameSpeed: 0.1
-  levelUI: {fileID: 0}
-  singularity: {fileID: 0}
+  levelUI: {fileID: 2004115014}
+  singularity: {fileID: 2105349321}
   annoucement: {fileID: 0}
+  currentLevel: 0
+  levelUpThresholds: c40900008813000010270000204e000030750000409c000050c3000060ea00007011010080380100905f0100a0860100b0ad0100c0d40100d0fb0100e0220200
+  gameSpeed:
+  - 1
+  - 1.1
+  - 1.2
+  - 1.3
+  - 1.4
+  - 1.5
+  - 1.6
+  - 1.7
+  - 1.8
+  - 1.9
+  - 2
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  currentGameSpeed: 1
+  GameOverUI: {fileID: 36932733}
+  celestialTotal: 0
+  maxSingularityOverload: 0
+  currentSingularityOverload: 0
+  scoreSystem: {fileID: 1713500838}
 --- !u!4 &617854006 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8544225595307331047, guid: 4c25c151169e0f34baf4e2110fe315ad, type: 3}

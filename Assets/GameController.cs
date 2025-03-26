@@ -15,12 +15,21 @@ public class GameController : MonoBehaviour
     [Header("Timer")]
     public TextMeshProUGUI timerUI;
     public float myTime;
-    public float gameSpeed = 1f;
     [Header("UI")]
     public TextMeshProUGUI levelUI;
     public TextMeshProUGUI singularity;
     public TextMeshProUGUI annoucement;
 
+    [Header("Level")]
+    public int currentLevel;
+    public int[] levelUpThresholds;
+    public float[] gameSpeed;
+    public float currentGameSpeed;
+    public GameObject GameOverUI;
+    public float celestialTotal;
+    public int maxSingularityOverload;
+    public int currentSingularityOverload;
+    public ScoreSystem scoreSystem;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -30,6 +39,7 @@ public class GameController : MonoBehaviour
             nextObject = celestialObjects[Random.Range(0, celestialObjects.Length)];
         }
         pickObject();
+        currentGameSpeed = gameSpeed[currentLevel];
     }
 
     // Update is called once per frame
@@ -41,6 +51,23 @@ public class GameController : MonoBehaviour
         }
 
         GlobalTimer();
+        levelUI.text = "level: " + currentLevel;
+
+        if (scoreSystem.score > levelUpThresholds[currentLevel])
+        {
+            IncreaseLevel();
+        }
+    }
+
+    public void countCelestials()
+    {
+
+    }
+
+    void IncreaseLevel()
+    {
+        currentLevel += 1;
+        currentGameSpeed = gameSpeed[currentLevel];
     }
 
     void pickObject()

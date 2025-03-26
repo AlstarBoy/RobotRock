@@ -25,7 +25,7 @@ public class placingObject : MonoBehaviour
     [Header("Score")]
     private ScoreSystem scoreSystem;
     public int scoreWhenPlaced = 50;
-
+    private GameController gCont;
 
     private void Awake()
     {
@@ -33,6 +33,12 @@ public class placingObject : MonoBehaviour
         {
             scoreSystem = GameObject.Find("=== Score System").GetComponent<ScoreSystem>();
         }
+        if (gCont == null)
+        {
+            gCont = GameObject.Find("=== Game Controller").GetComponent<GameController>();
+        }
+        //ds
+        fallSpeed *= gCont.currentGameSpeed;
     }
 
     // Update is called once per frame

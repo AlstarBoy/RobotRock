@@ -30,6 +30,7 @@ public class ItemStats : MonoBehaviour
     public int scoreWhenTierUp;
     public int scoreWhenAbsorb;
 
+    private GameController gCont;
 
 
     void Awake()
@@ -39,7 +40,12 @@ public class ItemStats : MonoBehaviour
         {
             scoreSystem = GameObject.Find("=== Score System").GetComponent<ScoreSystem>();
         }
+        if (gCont == null)
+        {
+            gCont = GameObject.Find("=== Game Controller").GetComponent<GameController>();
+        }
         pObject = GetComponent<placingObject>();
+        absorptionSpeed *= gCont.currentGameSpeed;
     }
 
     void Update()
@@ -77,7 +83,7 @@ public class ItemStats : MonoBehaviour
                     yield break;
                 }
                 transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.deltaTime * gCont.currentGameSpeed;
                 yield return null;
             }
         }
