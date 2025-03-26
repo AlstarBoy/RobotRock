@@ -16,9 +16,11 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI timerUI;
     public float myTime;
     public float gameSpeed = 1f;
+    [Header("UI")]
+    public TextMeshProUGUI levelUI;
+    public TextMeshProUGUI singularity;
+    public TextMeshProUGUI annoucement;
 
-
-    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -50,7 +52,6 @@ public class GameController : MonoBehaviour
             {
 
                 int randInt = Random.Range(0, celestialObjects.Length);
-                print("celestial "+randInt);
                 nextObject = celestialObjects[randInt];
             }
             currentObject = Instantiate(currentObject, startPos.transform.position, Quaternion.identity);

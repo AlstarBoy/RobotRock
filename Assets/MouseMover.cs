@@ -35,7 +35,6 @@ public class MouseMover : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        print("move");
         if (other.CompareTag("tile"))
         {
             hBlock.transform.position = other.transform.position;

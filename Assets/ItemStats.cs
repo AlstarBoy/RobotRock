@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Threading;
 
 public class ItemStats : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class ItemStats : MonoBehaviour
     private bool isGrowing = false;
     private bool isAbsorbing = false; // Flag to disable growth during absorption
     private bool isRemoveTier = false;
+    public bool isBlackHole = false;
 
     public bool allowedToGrow;
     public bool allowedToAbsorb;
@@ -28,6 +30,8 @@ public class ItemStats : MonoBehaviour
     public int scoreWhenTierUp;
     public int scoreWhenAbsorb;
 
+
+
     void Awake()
     {
         // Find the score system on Awake
@@ -40,6 +44,7 @@ public class ItemStats : MonoBehaviour
 
     void Update()
     {
+        CheckCollision();
         // Only grow if:
         // - The object is placed,
         // - Not currently growing or absorbing,
@@ -92,7 +97,6 @@ public class ItemStats : MonoBehaviour
     // We use OnTriggerEnter only to avoid repeated calls.
     private void OnTriggerEnter(Collider other)
     {
-
         // Handle absorption for both asteroids (if allowed) and Celestial objects.
         AbsorptionTrigger(other);
     }
@@ -122,7 +126,9 @@ public class ItemStats : MonoBehaviour
         // Disable growth while absorption is active.
         isAbsorbing = true;
 
-        while (targetPlanet != null && targetPlanet.transform.localScale.magnitude > 0.1f)
+        while (targetPlanet != null && targetPlanet.transform.localScale.magnitude > 0.1f && !targetPlanet.isBlackHole
+            || targetPlanet != null && targetPlanet.transform.localScale.magnitude > 0.1f && targetPlanet.isBlackHole && isBlackHole 
+            || targetPlanet != null && !targetPlanet.isBlackHole && isBlackHole)
         {
             // Move the target toward this planet.
             targetPlanet.transform.position = Vector3.MoveTowards(targetPlanet.transform.position, transform.position, absorptionSpeed * Time.deltaTime);
@@ -139,18 +145,21 @@ public class ItemStats : MonoBehaviour
                     RemoveTier();
                 }
                 // Instead of adding a fixed vector, we now check if we can go to the next tier.
-                else if (planetTier < maxPlanetTier - 1) // There is a next tier available
+                else if (planetTier < maxPlanetTier) // There is a next tier available
                 {
+                    print("absorb planet size");
                     // Snap the absorber's scale to the next defined size.
                     transform.localScale = sizes[planetTier];
                     scoreSystem.IncreaseScore(scoreWhenAbsorb * (planetTier + 1));
                 }
                 else
                 {
+                    print("absorb planet score");
                     // If at max tier, just add score.
                     scoreSystem.IncreaseScore(scoreWhenAbsorb * (planetTier + 1));
                 }
-
+                //yield on a new YieldInstruction that waits for 5 seconds.
+                yield return new WaitForSeconds(0.1f);
                 // Destroy the absorbed planet.
                 Destroy(targetPlanet.gameObject);
                 break;
@@ -171,13 +180,45 @@ public class ItemStats : MonoBehaviour
             planetTier--;
             // Snap scale to the previous tier's size.
             transform.localScale = sizes[planetTier-1];
-            Debug.Log("Planet tier removed. New tier: " + planetTier);
             isRemoveTier = false;
+        }
+    }
+
+
+
+
+    [Header("CheckCollision")]
+    public SphereCollider sCol;
+    public BoxCollider bCol;
+    public float updateTime;
+    public float cTime;
+
+    public void CheckCollision()
+    {
+        if (!isAbsorbing)
+        {
+            if (cTime < updateTime)
+            {
+                bCol.enabled = true;
+                sCol.enabled = true;
+                cTime += Time.fixedDeltaTime;
+            }
+            else
+            {
+                bCol.enabled = false;
+                sCol.enabled = false;
+                cTime = 0;
+            }
         }
         else
         {
-            Debug.Log("No lower tier to remove.");
+            bCol.enabled = true;
+            sCol.enabled = true;
         }
+
     }
+
+
+
 }
 
