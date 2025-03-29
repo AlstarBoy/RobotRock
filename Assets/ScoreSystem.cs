@@ -15,7 +15,7 @@ public class ScoreSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scoreUI.text = "Score: " + score;
+        scoreUI.text = "score: " + score;
     }
 
     public void IncreaseScore(float score)

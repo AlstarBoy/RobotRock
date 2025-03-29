@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class GameController : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI levelUI;
     public TextMeshProUGUI singularity;
     public TextMeshProUGUI annoucement;
+    public TextMeshProUGUI celestialsUI;
 
     [Header("Level")]
     public int currentLevel;
@@ -31,12 +33,16 @@ public class GameController : MonoBehaviour
     public GameObject GameOverUI;
     public ScoreSystem scoreSystem;
     [Header("Singularity")]
-    public int maxSingularityOverload;
+    public int maxSingularityOverload = 100;
     public int currentSingularityOverload;
     public int totalTiers;
     public int totalCelestial;
+    public RectTransform singularityFill;
     [Header("Events")]
     public string e;
+
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -62,10 +68,25 @@ public class GameController : MonoBehaviour
         GlobalTimer();
         levelUI.text = "level: " + currentLevel;
 
+        SingularityEvent();
 
         if (scoreSystem.score > levelUpThresholds[currentLevel])
         {
             IncreaseLevel();
+        }
+    }
+
+    void SingularityEvent()
+    {
+        currentSingularityOverload = totalTiers + totalCelestial;
+        float y = -92f + (((float)currentSingularityOverload / maxSingularityOverload) * 92f);
+        print(y);
+        Vector2 pos = singularityFill.anchoredPosition;
+        pos.x = y;
+        singularityFill.anchoredPosition = pos;
+        if (currentSingularityOverload > maxSingularityOverload)
+        {
+
         }
     }
 
@@ -104,6 +125,7 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < lastObjectCounter; i++)
             {
                 currentObject = Random.Range(0, celestialObjects.Length);
+                print("Reroll");
             }
         }
         else
