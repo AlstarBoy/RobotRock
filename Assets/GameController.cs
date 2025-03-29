@@ -29,21 +29,23 @@ public class GameController : MonoBehaviour
     public float[] gameSpeed;
     public float currentGameSpeed;
     public GameObject GameOverUI;
-    public float celestialTotal;
     public ScoreSystem scoreSystem;
     [Header("Singularity")]
     public int maxSingularityOverload;
     public int currentSingularityOverload;
+    public int totalTiers;
+    public int totalCelestial;
     [Header("Events")]
     public string e;
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         if (nextObject == null)
         {
-            nextObject = celestialObjects[Random.Range(0, celestialObjects.Length)];
+            int randInt = Random.Range(0, celestialObjects.Length);
+            nextObject = celestialObjects[randInt];
+            lastObject = randInt;
         }
         pickObject();
         currentGameSpeed = gameSpeed[currentLevel];
@@ -60,15 +62,11 @@ public class GameController : MonoBehaviour
         GlobalTimer();
         levelUI.text = "level: " + currentLevel;
 
+
         if (scoreSystem.score > levelUpThresholds[currentLevel])
         {
             IncreaseLevel();
         }
-    }
-
-    public void countCelestials()
-    {
-
     }
 
     void IncreaseLevel()
@@ -102,12 +100,11 @@ public class GameController : MonoBehaviour
 
         if (currentObject == lastObject)
         {
+            lastObjectCounter++;
             for (int i = 0; i < lastObjectCounter; i++)
             {
-                print("ReRoll");
-                lastObjectCounter++;
                 currentObject = Random.Range(0, celestialObjects.Length);
-            } 
+            }
         }
         else
         {

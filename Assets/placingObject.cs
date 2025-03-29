@@ -86,6 +86,7 @@ public class placingObject : MonoBehaviour
             bCol.enabled = true;
             sCol.enabled = true;
             scoreSystem.IncreaseScore(scoreWhenPlaced);
+            gCont.totalCelestial++;
         }
     }
 

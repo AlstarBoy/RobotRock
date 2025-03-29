@@ -48,6 +48,12 @@ public class ItemStats : MonoBehaviour
         absorptionSpeed *= gCont.currentGameSpeed;
     }
 
+    private void OnDestroy()
+    {
+        gCont.totalCelestial--;
+        gCont.totalTiers -= planetTier;
+    }
+
     void Update()
     {
         CheckCollision();
@@ -97,6 +103,8 @@ public class ItemStats : MonoBehaviour
         {
             scoreSystem.IncreaseScore(scoreWhenTierUp * (planetTier + 1));
             planetTier++;
+            gCont.totalTiers++;
+
         }
     }
 
@@ -184,6 +192,7 @@ public class ItemStats : MonoBehaviour
         {
             isRemoveTier = true;
             planetTier--;
+            gCont.totalTiers--;
             // Snap scale to the previous tier's size.
             transform.localScale = sizes[planetTier-1];
             isRemoveTier = false;
