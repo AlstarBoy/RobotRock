@@ -12,6 +12,9 @@ public class GameController : MonoBehaviour
     public GameObject startPos;
     public GameObject nextUI;
     public bool objectPlaced = false;
+    [Header("Re-Roll Next Object")]
+    public int lastObject = -1;
+    public int lastObjectCounter;
     [Header("Timer")]
     public TextMeshProUGUI timerUI;
     public float myTime;
@@ -27,9 +30,13 @@ public class GameController : MonoBehaviour
     public float currentGameSpeed;
     public GameObject GameOverUI;
     public float celestialTotal;
+    public ScoreSystem scoreSystem;
+    [Header("Singularity")]
     public int maxSingularityOverload;
     public int currentSingularityOverload;
-    public ScoreSystem scoreSystem;
+    [Header("Events")]
+    public string e;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -79,12 +86,32 @@ public class GameController : MonoBehaviour
             {
 
                 int randInt = Random.Range(0, celestialObjects.Length);
+                reRollPickObject(randInt);
                 nextObject = celestialObjects[randInt];
+                lastObject = randInt;
             }
             currentObject = Instantiate(currentObject, startPos.transform.position, Quaternion.identity);
             currentObject.GetComponent<placingObject>().mousePos = startPos;
             currentObject.GetComponent<placingObject>().gameC = this;
             objectPlaced = false;
+        }
+    }
+
+    void reRollPickObject(int currentObject)
+    {
+
+        if (currentObject == lastObject)
+        {
+            for (int i = 0; i < lastObjectCounter; i++)
+            {
+                print("ReRoll");
+                lastObjectCounter++;
+                currentObject = Random.Range(0, celestialObjects.Length);
+            } 
+        }
+        else
+        {
+            lastObjectCounter = 0;
         }
     }
 
