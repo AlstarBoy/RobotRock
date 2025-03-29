@@ -39,12 +39,12 @@ public class GameController : MonoBehaviour
     public int totalCelestial;
     public RectTransform singularityFill;
     [Header("Balance Scale")]
-    public int maxBadCelestials = 100;
     public int currentBadCelestials;
-    public int maxGoodCelestials = 100;
     public int currentGoodCelestials;
-    public int totalBadCelestial;
-    public int totalGoodCelestial;
+    public int maxBadCelestials = -100;
+    public int maxGoodCelestials = 100;
+    public int currentGoodBadCelestial = 0;
+    public RectTransform balanceScalePoint;
     [Header("Events")]
     public string e;
 
@@ -76,6 +76,7 @@ public class GameController : MonoBehaviour
         levelUI.text = "level: " + currentLevel;
 
         SingularityEvent();
+        BalanceScale();
 
         if (scoreSystem.score > levelUpThresholds[currentLevel])
         {
@@ -83,13 +84,21 @@ public class GameController : MonoBehaviour
         }
     }
 
+    void BalanceScale()
+    {
+        currentGoodBadCelestial = currentGoodCelestials - currentBadCelestials;
+        float x = -85f + ((currentGoodBadCelestial + maxBadCelestials) / (maxGoodCelestials + maxBadCelestials)) * 170f;
+        Vector2 pos = balanceScalePoint.anchoredPosition;
+        pos.x = x;
+        balanceScalePoint.anchoredPosition = pos;
+    }
+
     void SingularityEvent()
     {
         currentSingularityOverload = totalTiers + totalCelestial;
-        float y = -92f + (((float)currentSingularityOverload / maxSingularityOverload) * 92f);
-        print(y);
+        float x = -92f + (((float)currentSingularityOverload / maxSingularityOverload) * 92f);
         Vector2 pos = singularityFill.anchoredPosition;
-        pos.x = y;
+        pos.x = x;
         singularityFill.anchoredPosition = pos;
         if (currentSingularityOverload > maxSingularityOverload)
         {

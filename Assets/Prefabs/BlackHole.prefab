@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5683a9933f45fa74387883a60e39e3db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGood: 0
   planetTier: 0
   maxPlanetTier: 9
   sizes:
@@ -263,6 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mousePos: {fileID: 0}
+  isGood: 0
   isPlaced: 0
   gameC: {fileID: 0}
   sCol: {fileID: 744333640873518371}
@@ -315,6 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5683a9933f45fa74387883a60e39e3db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGood: 0
   planetTier: 0
   maxPlanetTier: 2
   sizes:
