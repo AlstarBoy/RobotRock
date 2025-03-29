@@ -5,6 +5,7 @@ using System.Threading;
 public class ItemStats : MonoBehaviour
 {
     [Header("Stats")]
+    public bool isGood;
     public int planetTier;
     public int maxPlanetTier;
     public Vector3[] sizes;       // Array of scales for each tier
@@ -52,6 +53,14 @@ public class ItemStats : MonoBehaviour
     {
         gCont.totalCelestial--;
         gCont.totalTiers -= planetTier;
+        if (isGood)
+        {
+            gCont.currentGoodCelestials -= 1;
+        }
+        else
+        {
+            gCont.currentBadCelestials -= 1;
+        }
     }
 
     void Update()
@@ -104,6 +113,14 @@ public class ItemStats : MonoBehaviour
             scoreSystem.IncreaseScore(scoreWhenTierUp * (planetTier + 1));
             planetTier++;
             gCont.totalTiers++;
+            if (isGood)
+            {
+                gCont.currentGoodCelestials += 1;
+            }
+            else
+            {
+                gCont.currentBadCelestials += 1;
+            }
 
         }
     }
@@ -193,6 +210,14 @@ public class ItemStats : MonoBehaviour
             isRemoveTier = true;
             planetTier--;
             gCont.totalTiers--;
+            if (isGood)
+            {
+                gCont.currentGoodCelestials--;
+            }
+            else
+            {
+                gCont.currentBadCelestials--;
+            }
             // Snap scale to the previous tier's size.
             transform.localScale = sizes[planetTier-1];
             isRemoveTier = false;

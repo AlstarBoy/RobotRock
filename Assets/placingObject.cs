@@ -6,6 +6,7 @@ public class placingObject : MonoBehaviour
 {
     public GameObject mousePos;
     [Header("Placed Variables")]
+    public bool isGood;
     private bool idleRot = false;
     public bool isPlaced = false;
     public GameController gameC;
@@ -87,6 +88,14 @@ public class placingObject : MonoBehaviour
             sCol.enabled = true;
             scoreSystem.IncreaseScore(scoreWhenPlaced);
             gCont.totalCelestial++;
+            if (isGood)
+            {
+                gCont.currentGoodCelestials += 1;
+            }
+            else
+            {
+                gCont.currentBadCelestials += 1;
+            }
         }
     }
 

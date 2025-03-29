@@ -38,6 +38,13 @@ public class GameController : MonoBehaviour
     public int totalTiers;
     public int totalCelestial;
     public RectTransform singularityFill;
+    [Header("Balance Scale")]
+    public int maxBadCelestials = 100;
+    public int currentBadCelestials;
+    public int maxGoodCelestials = 100;
+    public int currentGoodCelestials;
+    public int totalBadCelestial;
+    public int totalGoodCelestial;
     [Header("Events")]
     public string e;
 
