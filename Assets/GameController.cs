@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     public GameObject startPos;
     public GameObject nextUI;
     public bool objectPlaced = false;
+    public GameObject[] nextObjectIcon;
+    public int nextONum;
     [Header("Re-Roll Next Object")]
     public int lastObject = -1;
     public int lastObjectCounter;
@@ -38,6 +40,9 @@ public class GameController : MonoBehaviour
     public int totalTiers;
     public int totalCelestial;
     public RectTransform singularityFill;
+
+    [Header("SingularityEvents")]
+    public bool[] sEvents;
     [Header("Balance Scale")]
     public int currentBadCelestials;
     public int currentGoodCelestials;
@@ -45,8 +50,10 @@ public class GameController : MonoBehaviour
     public int maxGoodCelestials = 100;
     public int currentGoodBadCelestial = 0;
     public RectTransform balanceScalePoint;
-    [Header("Events")]
-    public string e;
+    public RectTransform scaleBar;
+    [Header("Balance Scale")]
+    public GameObject gameOverScreen;
+
 
 
 
@@ -58,6 +65,8 @@ public class GameController : MonoBehaviour
         {
             int randInt = Random.Range(0, celestialObjects.Length);
             nextObject = celestialObjects[randInt];
+            nextONum = randInt;
+            nextObjectIcon[nextONum].SetActive(true);
             lastObject = randInt;
         }
         pickObject();
@@ -74,7 +83,7 @@ public class GameController : MonoBehaviour
 
         GlobalTimer();
         levelUI.text = "level: " + currentLevel;
-
+        celestialsUI.text = "celestials:" + totalCelestial;
         SingularityEvent();
         BalanceScale();
 
@@ -86,11 +95,29 @@ public class GameController : MonoBehaviour
 
     void BalanceScale()
     {
-        currentGoodBadCelestial = currentGoodCelestials - currentBadCelestials;
-        float x = -85f + ((currentGoodBadCelestial + maxBadCelestials) / (maxGoodCelestials + maxBadCelestials)) * 170f;
+        // Assuming bad celestials are negative numbers,
+        // compute the net value by adding (not subtracting)
+        currentGoodBadCelestial = currentGoodCelestials + currentBadCelestials;
+
+        // Remap net value from [maxBadCelestials, maxGoodCelestials] to [-85, 85]
+        float x = -85f + (((float)currentGoodBadCelestial - maxBadCelestials) / (maxGoodCelestials - maxBadCelestials)) * 170f;
+
+        // Update the UI RectTransform's anchoredPosition (since you can’t change just x directly)
         Vector2 pos = balanceScalePoint.anchoredPosition;
         pos.x = x;
         balanceScalePoint.anchoredPosition = pos;
+
+        // ROTATION
+        currentGoodBadCelestial = currentGoodCelestials + currentBadCelestials;
+        float zRot = 20f + (((float)currentGoodBadCelestial - maxBadCelestials) / (maxGoodCelestials - maxBadCelestials)) * -40f;
+        scaleBar.rotation = Quaternion.Euler(0, 0, zRot);
+
+        if (currentGoodBadCelestial <= maxBadCelestials || currentGoodBadCelestial >= maxGoodCelestials)
+        {
+            Time.timeScale = 0f;
+            gameOverScreen.SetActive(true);
+        }
+
     }
 
     void SingularityEvent()
@@ -119,10 +146,12 @@ public class GameController : MonoBehaviour
             currentObject = nextObject;
             if (nextObject == null || objectPlaced == true)
             {
-
+                nextObjectIcon[nextONum].SetActive(false);
                 int randInt = Random.Range(0, celestialObjects.Length);
                 reRollPickObject(randInt);
                 nextObject = celestialObjects[randInt];
+                nextONum = randInt;
+                nextObjectIcon[nextONum].SetActive(true);
                 lastObject = randInt;
             }
             currentObject = Instantiate(currentObject, startPos.transform.position, Quaternion.identity);

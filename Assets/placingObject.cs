@@ -94,7 +94,7 @@ public class placingObject : MonoBehaviour
             }
             else
             {
-                gCont.currentBadCelestials += 1;
+                gCont.currentBadCelestials -= 1;
             }
         }
     }

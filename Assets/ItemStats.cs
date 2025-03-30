@@ -59,7 +59,7 @@ public class ItemStats : MonoBehaviour
         }
         else
         {
-            gCont.currentBadCelestials -= 1;
+            gCont.currentBadCelestials += 1;
         }
     }
 
@@ -119,7 +119,7 @@ public class ItemStats : MonoBehaviour
             }
             else
             {
-                gCont.currentBadCelestials += 1;
+                gCont.currentBadCelestials -= 1;
             }
 
         }
@@ -216,7 +216,7 @@ public class ItemStats : MonoBehaviour
             }
             else
             {
-                gCont.currentBadCelestials--;
+                gCont.currentBadCelestials++;
             }
             // Snap scale to the previous tier's size.
             transform.localScale = sizes[planetTier-1];
