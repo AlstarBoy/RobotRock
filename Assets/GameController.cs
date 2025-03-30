@@ -54,13 +54,28 @@ public class GameController : MonoBehaviour
     [Header("Balance Scale")]
     public GameObject gameOverScreen;
 
+    [Header("Tiles")]
+    public GameObject tileHolder;
+    public GameObject[] tiles;
 
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        // Ensure tileHolder is assigned to prevent NullReferenceException
+        if (tileHolder == null)
+        {
+            Debug.LogError("tileHolder is not assigned in the inspector.");
+            return;
+        }
+
+        // Populate the tiles array with all direct children of tileHolder
+        int childCount = tileHolder.transform.childCount;
+        tiles = new GameObject[childCount];
+
+        for (int i = 0; i < childCount; i++)
+        {
+            tiles[i] = tileHolder.transform.GetChild(i).gameObject;
+        }
+
         if (nextObject == null)
         {
             int randInt = Random.Range(0, celestialObjects.Length);
@@ -71,7 +86,10 @@ public class GameController : MonoBehaviour
         }
         pickObject();
         currentGameSpeed = gameSpeed[currentLevel];
+
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -127,8 +145,9 @@ public class GameController : MonoBehaviour
         Vector2 pos = singularityFill.anchoredPosition;
         pos.x = x;
         singularityFill.anchoredPosition = pos;
-        if (currentSingularityOverload > maxSingularityOverload)
+        if (currentSingularityOverload >= maxSingularityOverload)
         {
+            currentSingularityOverload = maxSingularityOverload;
 
         }
     }

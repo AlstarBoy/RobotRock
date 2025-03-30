@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Threading;
+using NUnit.Framework.Constraints;
+using UnityEngine.UIElements;
 
 public class ItemStats : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class ItemStats : MonoBehaviour
     private bool isAbsorbing = false; // Flag to disable growth during absorption
     private bool isRemoveTier = false;
     public bool isBlackHole = false;
+    public bool gettingAbsorbed = false;
 
     public bool allowedToGrow;
     public bool allowedToAbsorb;
@@ -32,6 +35,10 @@ public class ItemStats : MonoBehaviour
     public int scoreWhenAbsorb;
 
     private GameController gCont;
+
+
+    [Header("Tile Checker")]
+    private Tile tile;
 
 
     void Awake()
@@ -76,6 +83,33 @@ public class ItemStats : MonoBehaviour
             canGrow = true;
             StartCoroutine(Grow(sizes[planetTier], sizeTime[planetTier]));
         }
+
+        TileChecker();
+    }
+
+    void TileChecker()
+    {
+        if (pObject.isPlaced)
+        {
+            GameObject tile = FindTileWithSamePosition(gCont.tiles);
+            if (Vector3.Distance(tile.transform.position, transform.position) < 0.01f)
+            {
+                tile.GetComponent<Tile>().gOccupier = this.gameObject;
+            }
+
+        }
+    }
+
+    public GameObject FindTileWithSamePosition(GameObject[] targetObject)
+    {
+        foreach (GameObject tile in targetObject)
+        {
+            if (tile != null && tile.transform.position == transform.position)
+            {
+                return tile;
+            }
+        }
+        return null;
     }
 
     IEnumerator Grow(Vector3 targetScale, float duration)
@@ -163,7 +197,7 @@ public class ItemStats : MonoBehaviour
         {
             // Move the target toward this planet.
             targetPlanet.transform.position = Vector3.MoveTowards(targetPlanet.transform.position, transform.position, absorptionSpeed * Time.deltaTime);
-
+            targetPlanet.GetComponent<ItemStats>().gettingAbsorbed = true;
             // Gradually shrink the target.
             targetPlanet.transform.localScale *= (1 - Time.deltaTime * absorptionSpeed);
 
