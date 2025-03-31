@@ -16,7 +16,6 @@ public class Tile : MonoBehaviour
         {
             gCont = GameObject.Find("=== Game Controller").GetComponent<GameController>();
         }
-
         this.name = $"Tile {this.transform.position.x} {this.transform.position.y} {this.transform.position.z}";
     }
 

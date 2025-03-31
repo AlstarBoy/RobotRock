@@ -7,6 +7,7 @@ TagManager:
   - tile
   - Celestial
   - Asteroid
+  - TemporalDistortions
   layers:
   - Default
   - TransparentFX
