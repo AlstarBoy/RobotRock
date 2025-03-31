@@ -8,9 +8,15 @@ public class Tile : MonoBehaviour
     public GameObject gOccupier;
     public bool occupied;
     public Vector3 myPos;
+    public GameController gCont;
 
     void Awake()
     {
+        if (gCont == null)
+        {
+            gCont = GameObject.Find("=== Game Controller").GetComponent<GameController>();
+        }
+
         this.name = $"Tile {this.transform.position.x} {this.transform.position.y} {this.transform.position.z}";
     }
 
@@ -26,6 +32,7 @@ public class Tile : MonoBehaviour
             gOccupier = null;
         }
     }
+
 
     /*
     void OnMouseEnter()

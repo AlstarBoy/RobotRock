@@ -280,6 +280,7 @@ MonoBehaviour:
   - 0
   canGrow: 1
   isBlackHole: 1
+  gettingAbsorbed: 0
   allowedToGrow: 1
   allowedToAbsorb: 1
   allowedToRemoveTier: 0
@@ -384,6 +385,7 @@ MonoBehaviour:
   - 150
   canGrow: 0
   isBlackHole: 0
+  gettingAbsorbed: 0
   allowedToGrow: 1
   allowedToAbsorb: 1
   allowedToRemoveTier: 1

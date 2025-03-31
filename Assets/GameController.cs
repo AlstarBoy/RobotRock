@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
+using System.Collections.Generic;
+using System.Collections;
 
 public class GameController : MonoBehaviour
 {
@@ -43,6 +45,13 @@ public class GameController : MonoBehaviour
 
     [Header("SingularityEvents")]
     public bool[] sEvents;
+    public bool startEvent = false;
+    public bool eventRunning = false;
+    [Header("Temporal Distortions")]
+    public bool temporalEvent = false;
+    public GameObject[] timeZones;
+    
+
     [Header("Balance Scale")]
     public int currentBadCelestials;
     public int currentGoodCelestials;
@@ -135,7 +144,6 @@ public class GameController : MonoBehaviour
             Time.timeScale = 0f;
             gameOverScreen.SetActive(true);
         }
-
     }
 
     void SingularityEvent()
@@ -148,8 +156,69 @@ public class GameController : MonoBehaviour
         if (currentSingularityOverload >= maxSingularityOverload)
         {
             currentSingularityOverload = maxSingularityOverload;
-
+            startEvent = true;
+            if (startEvent && !eventRunning)
+            {
+                StartCoroutine(TemporalDistortion());
+            }
         }
+    }
+
+    IEnumerator TemporalDistortion()
+    {
+        // Build a list of available positions from the 'tiles' array.
+        List<Vector3> availablePositions = new List<Vector3>();
+        foreach (GameObject posHolder in tiles)
+        {
+            availablePositions.Add(posHolder.transform.position);
+        }
+
+        // Warn if there are fewer available positions than timeZones.
+        if (availablePositions.Count < timeZones.Length)
+        {
+            Debug.LogWarning("There are fewer available positions than timeZones. Some objects will not be placed.");
+        }
+
+        // For each timeZone object, assign a random available position, random scale, and activate it.
+        for (int i = 0; i < timeZones.Length; i++)
+        {
+            if (availablePositions.Count == 0)
+            {
+                Debug.LogWarning("No available positions remain for additional timeZones.");
+                break;
+            }
+
+            int randomIndex = Random.Range(0, availablePositions.Count);
+            Vector3 randomPosition = availablePositions[randomIndex];
+            timeZones[i].transform.position = randomPosition;
+            timeZones[i].SetActive(true);
+
+            // Randomize the scale using whole numbers between 1 and 7.
+            int randomScale = Random.Range(1, 8); // 1 to 7, because 8 is exclusive
+            timeZones[i].transform.localScale = Vector3.one * randomScale;
+
+            // Remove the used position so it won't be selected again.
+            availablePositions.RemoveAt(randomIndex);
+        }
+
+        // Wait for 30 seconds.
+        yield return new WaitForSeconds(30f);
+
+        // After waiting, deactivate all timeZones.
+        for (int i = 0; i < timeZones.Length; i++)
+        {
+            timeZones[i].SetActive(false);
+        }
+    }
+
+    void QuantumShift()
+    {
+
+    }
+
+    void DarkMatterSurge()
+    {
+
     }
 
     void IncreaseLevel()
