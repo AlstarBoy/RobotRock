@@ -256,6 +256,7 @@ public class GameController : MonoBehaviour
 
         eventRunning = false;
         temporalEvent = false;
+        currentSingularityOverload = 0;
     }
 
     void QuantumShift()

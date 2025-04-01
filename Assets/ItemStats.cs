@@ -40,6 +40,13 @@ public class ItemStats : MonoBehaviour
     [Header("Tile Checker")]
     private Tile tile;
 
+    // for time distortions to change speed
+    private float timeDSpeed = 0;
+    private bool temDFast;
+    private bool temDSlow;
+    private bool canAbsorb = true;
+
+    public bool destoryMe;
 
     void Awake()
     {
@@ -58,15 +65,20 @@ public class ItemStats : MonoBehaviour
 
     private void OnDestroy()
     {
-        gCont.totalCelestial--;
-        gCont.totalTiers -= planetTier;
-        if (isGood)
+        if(!destoryMe)
         {
-            gCont.currentGoodCelestials -= 1;
-        }
-        else
-        {
-            gCont.currentBadCelestials += 1;
+            print("DESTROY");
+            gCont.totalCelestial--;
+            gCont.totalTiers -= planetTier;
+            if (isGood)
+            {
+                gCont.currentGoodCelestials -= 1;
+            }
+            else
+            {
+                gCont.currentBadCelestials += 1;
+            }
+            destoryMe = true;
         }
     }
 
@@ -132,7 +144,7 @@ public class ItemStats : MonoBehaviour
                     yield break;
                 }
                 transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
-                elapsedTime += Time.deltaTime * gCont.currentGameSpeed;
+                elapsedTime += Time.deltaTime * gCont.currentGameSpeed + timeDSpeed;
                 yield return null;
             }
         }
@@ -144,6 +156,7 @@ public class ItemStats : MonoBehaviour
         // Tier up after growth if there's room.
         if (planetTier < maxPlanetTier)
         {
+            print("GROW");
             scoreSystem.IncreaseScore(scoreWhenTierUp * (planetTier + 1));
             planetTier++;
             gCont.totalTiers++;
@@ -162,8 +175,50 @@ public class ItemStats : MonoBehaviour
     // We use OnTriggerEnter only to avoid repeated calls.
     private void OnTriggerEnter(Collider other)
     {
-        // Handle absorption for both asteroids (if allowed) and Celestial objects.
-        AbsorptionTrigger(other);
+        if (canAbsorb)
+        {
+            // Handle absorption for both asteroids (if allowed) and Celestial objects.
+            AbsorptionTrigger(other);
+        }
+
+        if (other.CompareTag("TemporalDistortions"))
+        {
+            TemporalDistortion timeDis = other.GetComponent<TemporalDistortion>();
+            if (timeDis.isFast)
+            {
+                temDFast = true;
+            }
+            if (!timeDis.isFast)
+            {
+                temDSlow = true;
+            }
+
+            if (temDFast && !temDSlow)
+            {
+                timeDSpeed = timeDis.speed;
+            }
+            else if (!temDFast && temDSlow)
+            {
+                allowedToAbsorb = false;
+                canAbsorb = false;
+                timeDSpeed = timeDis.speed;
+            }
+            else
+            {
+                timeDSpeed = 0;
+            }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("TemporalDistortions"))
+        {
+            timeDSpeed = 0;
+            canAbsorb = true;
+            allowedToAbsorb = true;
+            temDFast = false; 
+            temDSlow = false;
+        }
     }
 
     private void AbsorptionTrigger(Collider other)
@@ -196,10 +251,10 @@ public class ItemStats : MonoBehaviour
             || targetPlanet != null && !targetPlanet.isBlackHole && isBlackHole)
         {
             // Move the target toward this planet.
-            targetPlanet.transform.position = Vector3.MoveTowards(targetPlanet.transform.position, transform.position, absorptionSpeed * Time.deltaTime);
+            targetPlanet.transform.position = Vector3.MoveTowards(targetPlanet.transform.position, transform.position, absorptionSpeed * Time.deltaTime + (timeDSpeed*3));
             targetPlanet.GetComponent<ItemStats>().gettingAbsorbed = true;
             // Gradually shrink the target.
-            targetPlanet.transform.localScale *= (1 - Time.deltaTime * absorptionSpeed);
+            targetPlanet.transform.localScale *= (1 - Time.deltaTime);
 
             // When the target reaches the inner trigger zone, perform the absorption.
             if (Vector3.Distance(targetPlanet.transform.position, innerTrigger.position) < 0.1f)
@@ -212,21 +267,22 @@ public class ItemStats : MonoBehaviour
                 // Instead of adding a fixed vector, we now check if we can go to the next tier.
                 else if (planetTier < maxPlanetTier) // There is a next tier available
                 {
-                    print("absorb planet size");
                     // Snap the absorber's scale to the next defined size.
                     transform.localScale = sizes[planetTier];
                     scoreSystem.IncreaseScore(scoreWhenAbsorb * (planetTier + 1));
                 }
                 else
                 {
-                    print("absorb planet score");
                     // If at max tier, just add score.
                     scoreSystem.IncreaseScore(scoreWhenAbsorb * (planetTier + 1));
                 }
                 //yield on a new YieldInstruction that waits for 5 seconds.
                 yield return new WaitForSeconds(0.1f);
                 // Destroy the absorbed planet.
-                Destroy(targetPlanet.gameObject);
+                if (!targetPlanet.destoryMe)
+                {
+                    Destroy(targetPlanet.gameObject);
+                }
                 break;
             }
             yield return null;
@@ -241,6 +297,7 @@ public class ItemStats : MonoBehaviour
         // Only remove a tier if current tier is above 0.
         if (planetTier > 0)
         {
+            print("removeTier");
             isRemoveTier = true;
             planetTier--;
             gCont.totalTiers--;

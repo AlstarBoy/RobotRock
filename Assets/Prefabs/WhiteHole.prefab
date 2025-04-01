@@ -153,7 +153,6 @@ GameObject:
   - component: {fileID: 858723551665076070}
   - component: {fileID: 2238967280998114012}
   - component: {fileID: 7801640710198645289}
-  - component: {fileID: 5525285385952068211}
   m_Layer: 0
   m_Name: WhiteHole
   m_TagString: Celestial
@@ -248,6 +247,7 @@ MonoBehaviour:
   innerTrigger: {fileID: 1906267920258846841}
   scoreWhenTierUp: 100
   scoreWhenAbsorb: 10
+  destoryMe: 0
   sCol: {fileID: 744333640873518371}
   bCol: {fileID: 8486305031547561713}
   updateTime: 10
@@ -306,57 +306,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5525285385952068211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2563035371393664099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5683a9933f45fa74387883a60e39e3db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGood: 0
-  planetTier: 0
-  maxPlanetTier: 2
-  sizes:
-  - {x: 2, y: 2, z: 2}
-  - {x: 3, y: 3, z: 3}
-  - {x: 4, y: 4, z: 4}
-  - {x: 5, y: 5, z: 5}
-  - {x: 6, y: 6, z: 6}
-  - {x: 7, y: 7, z: 7}
-  - {x: 8, y: 8, z: 8}
-  - {x: 9, y: 9, z: 9}
-  - {x: 10, y: 10, z: 10}
-  - {x: 11, y: 11, z: 11}
-  sizeTime:
-  - 90
-  - 120
-  - 150
-  - 150
-  - 150
-  - 150
-  - 150
-  - 150
-  - 150
-  - 150
-  canGrow: 0
-  isBlackHole: 0
-  gettingAbsorbed: 0
-  allowedToGrow: 1
-  allowedToAbsorb: 1
-  allowedToRemoveTier: 1
-  absorptionSpeed: 0.1
-  innerTrigger: {fileID: 0}
-  scoreWhenTierUp: 0
-  scoreWhenAbsorb: 0
-  sCol: {fileID: 0}
-  bCol: {fileID: 0}
-  updateTime: 0
-  cTime: 0
 --- !u!1 &4361112844404618975
 GameObject:
   m_ObjectHideFlags: 0

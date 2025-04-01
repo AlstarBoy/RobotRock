@@ -8445,7 +8445,7 @@ MonoBehaviour:
   currentGameSpeed: 1
   GameOverUI: {fileID: 36932733}
   scoreSystem: {fileID: 1713500838}
-  maxSingularityOverload: 3
+  maxSingularityOverload: 50
   currentSingularityOverload: 0
   totalTiers: 0
   totalCelestial: 0
