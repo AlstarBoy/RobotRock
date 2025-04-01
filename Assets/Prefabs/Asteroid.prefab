@@ -400,6 +400,7 @@ MonoBehaviour:
   innerTrigger: {fileID: 1906267920258846841}
   scoreWhenTierUp: 0
   scoreWhenAbsorb: 0
+  destoryMe: 0
   sCol: {fileID: 744333640873518371}
   bCol: {fileID: 8486305031547561713}
   updateTime: 10

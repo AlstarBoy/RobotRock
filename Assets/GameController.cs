@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameController : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class GameController : MonoBehaviour
     public float[] gameSpeed;
     public float currentGameSpeed;
     public GameObject GameOverUI;
+    public TextMeshProUGUI highScore;
     public ScoreSystem scoreSystem;
     [Header("Singularity")]
     public int maxSingularityOverload = 100;
@@ -69,6 +71,7 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        Time.timeScale = 1.0f;
         // Ensure tileHolder is assigned to prevent NullReferenceException
         if (tileHolder == null)
         {
@@ -142,6 +145,7 @@ public class GameController : MonoBehaviour
         if (currentGoodBadCelestial <= maxBadCelestials || currentGoodBadCelestial >= maxGoodCelestials)
         {
             Time.timeScale = 0f;
+            highScore.text = "high score: " + scoreSystem.score;
             gameOverScreen.SetActive(true);
         }
     }
@@ -317,7 +321,7 @@ public class GameController : MonoBehaviour
 
     public void quickPlaceObject(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.canceled)
         {
             currentObject.GetComponent<placingObject>().placeObjectSmoothly();
         }

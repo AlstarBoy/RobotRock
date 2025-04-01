@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading;
 using NUnit.Framework.Constraints;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class ItemStats : MonoBehaviour
 {
