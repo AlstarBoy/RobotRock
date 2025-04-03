@@ -43,6 +43,7 @@ public class GameController : MonoBehaviour
     public int currentSingularityOverload;
     public int totalTiers;
     public int totalCelestial;
+    public int totalCelestialO;
     public RectTransform singularityFill;
 
     [Header("SingularityEvents")]
@@ -152,7 +153,7 @@ public class GameController : MonoBehaviour
 
     void SingularityEvent()
     {
-        currentSingularityOverload = totalTiers + totalCelestial;
+        currentSingularityOverload = totalTiers + totalCelestialO;
         float x = -92f + (((float)currentSingularityOverload / maxSingularityOverload) * 92f);
         Vector2 pos = singularityFill.anchoredPosition;
         pos.x = x;
@@ -261,6 +262,8 @@ public class GameController : MonoBehaviour
         eventRunning = false;
         temporalEvent = false;
         currentSingularityOverload = 0;
+        totalCelestialO = 0;
+        totalTiers = 0;
     }
 
     void QuantumShift()

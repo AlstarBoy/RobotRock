@@ -29,6 +29,8 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1.0f;
+
         if (tmpText != null)
         {
             tmpText.text = "";

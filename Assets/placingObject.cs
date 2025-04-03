@@ -88,6 +88,7 @@ public class placingObject : MonoBehaviour
             sCol.enabled = true;
             scoreSystem.IncreaseScore(scoreWhenPlaced);
             gCont.totalCelestial++;
+            gCont.totalCelestialO++;
             if (isGood)
             {
                 gCont.currentGoodCelestials += 1;

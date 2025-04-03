@@ -70,6 +70,7 @@ public class ItemStats : MonoBehaviour
         {
             print("DESTROY");
             gCont.totalCelestial--;
+            gCont.totalCelestialO--;
             gCont.totalTiers -= planetTier;
             if (isGood)
             {
@@ -161,9 +162,10 @@ public class ItemStats : MonoBehaviour
             scoreSystem.IncreaseScore(scoreWhenTierUp * (planetTier + 1));
             planetTier++;
             gCont.totalTiers++;
+            gCont.totalCelestialO--;
             if (isGood)
             {
-                gCont.currentGoodCelestials += 1;
+                gCont.currentGoodCelestials += 3;
             }
             else
             {
@@ -255,7 +257,7 @@ public class ItemStats : MonoBehaviour
             targetPlanet.transform.position = Vector3.MoveTowards(targetPlanet.transform.position, transform.position, absorptionSpeed * Time.deltaTime + (timeDSpeed*3));
             targetPlanet.GetComponent<ItemStats>().gettingAbsorbed = true;
             // Gradually shrink the target.
-            targetPlanet.transform.localScale *= (1 - Time.deltaTime);
+            //targetPlanet.transform.localScale *= (1 - Time.deltaTime);
 
             // When the target reaches the inner trigger zone, perform the absorption.
             if (Vector3.Distance(targetPlanet.transform.position, innerTrigger.position) < 0.1f)
@@ -302,6 +304,7 @@ public class ItemStats : MonoBehaviour
             isRemoveTier = true;
             planetTier--;
             gCont.totalTiers--;
+            gCont.totalCelestialO--;
             if (isGood)
             {
                 gCont.currentGoodCelestials--;

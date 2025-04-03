@@ -331,8 +331,8 @@ MonoBehaviour:
   allowedToRemoveTier: 1
   absorptionSpeed: 0.1
   innerTrigger: {fileID: 1906267920258846841}
-  scoreWhenTierUp: 100
-  scoreWhenAbsorb: 10
+  scoreWhenTierUp: 50
+  scoreWhenAbsorb: 25
   destoryMe: 0
   sCol: {fileID: 744333640873518371}
   bCol: {fileID: 8486305031547561713}
@@ -364,7 +364,7 @@ MonoBehaviour:
   idleRotationSpeed: 5
   fastPlace: 0
   artWork: {fileID: 8849023849835523446}
-  scoreWhenPlaced: 50
+  scoreWhenPlaced: 5
 --- !u!54 &7801640710198645289
 Rigidbody:
   m_ObjectHideFlags: 0
