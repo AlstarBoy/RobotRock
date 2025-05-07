@@ -58,11 +58,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainText:
-        m_Texture: {fileID: 2800000, guid: fec07b068c644c349b0b57cfa2abaef1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9755f6bce7117ad46843e79fb543e32c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskText:
-        m_Texture: {fileID: 2800000, guid: fec07b068c644c349b0b57cfa2abaef1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9755f6bce7117ad46843e79fb543e32c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -119,11 +119,11 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistortAmmount: 0.88
+    - _DistortAmmount: 1.71
     - _DistortRotateAmmount: 1.01
-    - _DistortRotateSpeed: -0.37
-    - _DistortScale: 48.6
-    - _DistortTwirlStrenght: 9.5
+    - _DistortRotateSpeed: 3
+    - _DistortScale: 35.1
+    - _DistortTwirlStrenght: 11.9
     - _DstBlend: 10
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
@@ -142,9 +142,9 @@ Material:
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 1
-    - _SwirlSpeed1: -0.38
-    - _SwirlSpeed2: -0.8
-    - _SwirlSpeed3: -0.94
+    - _SwirlSpeed1: 0
+    - _SwirlSpeed2: 0
+    - _SwirlSpeed3: 0
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 0
