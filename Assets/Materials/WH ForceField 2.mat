@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ForceField 1
+  m_Name: WH ForceField 2
   m_Shader: {fileID: -6465566751694194690, guid: 14256906509f0e848a517dbd717a16ec, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -42,14 +42,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_37163E29: 2.06
+    - Vector1_37163E29: 0.3
     - Vector1_AE9DFBD: 0.31
     - Vector1_D65B033B: 0.68
     - Vector1_E266B039: -0.64
+    - _CellDensityNOISE: 0
+    - _NoiseSpeed: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - Color_63659391: {r: 13.934588, g: 0.85730475, b: 0, a: 0}
+    - Color_63659391: {r: 1.3346615, g: 1.3346615, b: 1.3346615, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &2702505221664541180
