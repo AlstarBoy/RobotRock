@@ -119,11 +119,11 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistortAmmount: 1.71
+    - _DistortAmmount: 1.33
     - _DistortRotateAmmount: 1.01
-    - _DistortRotateSpeed: 3
-    - _DistortScale: 35.1
-    - _DistortTwirlStrenght: 11.9
+    - _DistortRotateSpeed: 2.09
+    - _DistortScale: 59.2
+    - _DistortTwirlStrenght: 48
     - _DstBlend: 10
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
