@@ -42,12 +42,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_37163E29: 0.3
-    - Vector1_AE9DFBD: 0.31
-    - Vector1_D65B033B: 0.68
+    - Vector1_37163E29: 120.1
+    - Vector1_AE9DFBD: 0.01
+    - Vector1_D65B033B: 18.72
     - Vector1_E266B039: -0.64
-    - _CellDensityNOISE: 0
-    - _NoiseSpeed: 0
+    - _CellDensityNOISE: 6.2
+    - _NoiseSpeed: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
