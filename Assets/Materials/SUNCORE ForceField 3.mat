@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TDLECForceField 1
+  m_Name: SUNCORE ForceField 3
   m_Shader: {fileID: -6465566751694194690, guid: 14256906509f0e848a517dbd717a16ec, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_79BA51A6:
-        m_Texture: {fileID: 2800000, guid: 2b227c05c9beb7447a19ace538149f74, type: 3}
+        m_Texture: {fileID: 2800000, guid: e37dca6da26dfc240bd086520b897aa7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -42,16 +42,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_37163E29: 1
-    - Vector1_AE9DFBD: 0
-    - Vector1_D65B033B: 15.57
-    - Vector1_E266B039: 0.7
+    - Vector1_37163E29: 0.7
+    - Vector1_AE9DFBD: -0.13
+    - Vector1_D65B033B: 0.68
+    - Vector1_E266B039: 0
     - _CellDensityNOISE: 0
     - _NoiseSpeed: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - Color_63659391: {r: 111.43055, g: 14.396413, b: 0, a: 0}
+    - Color_63659391: {r: 0.14098358, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &2702505221664541180
