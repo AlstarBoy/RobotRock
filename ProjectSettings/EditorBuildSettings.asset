@@ -9,13 +9,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Visual Test.unity
     guid: ec0b9d4d76a5d954386c89b729510588
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Old Stuff/Scenes/Menu.unity
     guid: 66a738243b93a2e478af4ad313f54ebd
   - enabled: 1
-    path: Assets/Scenes/SingularityShift.unity
+    path: Assets/Old Stuff/Scenes/SingularityShift.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/Tutorial.unity
+    path: Assets/Old Stuff/Scenes/Tutorial.unity
     guid: d353a5f694873f149a2627e9caa9eb6e
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
