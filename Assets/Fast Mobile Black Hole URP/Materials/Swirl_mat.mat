@@ -46,7 +46,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DistortText:
-        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 2800000, guid: 2fcfec4216be04742bad919fa0e2689d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -58,11 +58,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainText:
-        m_Texture: {fileID: 2800000, guid: 9755f6bce7117ad46843e79fb543e32c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2fcfec4216be04742bad919fa0e2689d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskText:
-        m_Texture: {fileID: 2800000, guid: 9755f6bce7117ad46843e79fb543e32c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2fcfec4216be04742bad919fa0e2689d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -119,11 +119,11 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistortAmmount: 1.33
+    - _DistortAmmount: 2
     - _DistortRotateAmmount: 1.01
-    - _DistortRotateSpeed: 2.09
-    - _DistortScale: 59.2
-    - _DistortTwirlStrenght: 48
+    - _DistortRotateSpeed: 3
+    - _DistortScale: 100
+    - _DistortTwirlStrenght: 100
     - _DstBlend: 10
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
