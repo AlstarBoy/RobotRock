@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 public class Tile : MonoBehaviour
 {
     public GameObject gOccupier;
+
+    /*
     public bool occupied;
     public Vector3 myPos;
     public GameController gCont;

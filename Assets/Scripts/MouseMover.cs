@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class MouseMover : MonoBehaviour
 {
@@ -10,6 +12,16 @@ public class MouseMover : MonoBehaviour
     //[SerializeField] private bool blockUpdate;
     //[SerializeField] private Vector3 previousPosition = Vector3.zero;
 
+    [SerializeField] private PlayerInput _playerInput;
+    private InputAction _pointAction;
+
+    private void Awake()
+    {
+        // Retrieve the 'Point' action from the PlayerInput's action map
+        _pointAction = _playerInput.actions["Move"];
+    }
+
+
     void Update()
     {
         MoveObjectToMouse();
@@ -19,7 +31,8 @@ public class MouseMover : MonoBehaviour
     void MoveObjectToMouse()
     {
         // Create a ray from the mouse position
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        Vector2 screenPosition = _pointAction.ReadValue<Vector2>();
+        Ray ray = _cam.ScreenPointToRay(screenPosition);
         Plane groundPlane = new Plane(Vector3.up, new Vector3(0, _yPosition, 0));
 
         float rayDistance;
@@ -35,8 +48,10 @@ public class MouseMover : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        print("trigger");
         if (other.CompareTag("tile"))
         {
+            print("move");
             hBlock.transform.position = other.transform.position;
         }
     }
