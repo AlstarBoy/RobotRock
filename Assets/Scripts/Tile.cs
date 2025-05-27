@@ -1,56 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
 
+using UnityEngine;
+
+/// <summary>
+/// Represents a tile in the grid.
+/// </summary>
 public class Tile : MonoBehaviour
 {
-    public GameObject gOccupier;
+    public Vector2Int gridPosition;
+    public CelestialObject currentObject;
 
-    /*
-    public bool occupied;
-    public Vector3 myPos;
-    public GameController gCont;
+    public bool IsOccupied => currentObject != null;
 
-    void Awake()
+    public void SetObject(CelestialObject obj)
     {
-        if (gCont == null)
-        {
-            gCont = GameObject.Find("=== Game Controller").GetComponent<GameController>();
-        }
-        this.name = $"Tile {this.transform.position.x} {this.transform.position.y} {this.transform.position.z}";
+        currentObject = obj;
+        obj.currentTile = this;
+        obj.gridPosition = gridPosition;
     }
 
-    private void Update()
+    public void Clear()
     {
-        if (gOccupier != null)
-        {
-            occupied = true;
-        }
-        else
-        {
-            occupied=false;
-            gOccupier = null;
-        }
+        currentObject = null;
     }
-
-
-    /*
-    void OnMouseEnter()
-    {
-        
-        if (_highlight != null)
-        {
-            _highlight.SetActive(true);
-        }
-    }
-
-    void OnMouseExit()
-    {
-        if (_highlight != null)
-        {
-            _highlight.SetActive(false);
-        }
-    }
-    */
 }
