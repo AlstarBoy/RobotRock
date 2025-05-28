@@ -53,7 +53,7 @@ Material:
     m_Floats:
     - _Ambient_Occlusion: 0
     - _Emmision: 0
-    - _Fresnel_Power: 2
+    - _Fresnel_Power: 0.11
     - _Fresnel_Power_2: 8
     - _Metalic: 0
     - _Noise_Scale: 20
@@ -63,7 +63,7 @@ Material:
     - _Scrole_Speed: 0.05
     - _Smouthness: 0
     m_Colors:
-    - _Primary_Color: {r: 0, g: 1, b: 0.76938605, a: 0}
-    - _Secondary_Color: {r: 0, g: 0.122630835, b: 1, a: 0}
+    - _Primary_Color: {r: 0, g: 1, b: 0.76938605, a: 0.15686275}
+    - _Secondary_Color: {r: 0, g: 0.12263081, b: 1, a: 0.30588236}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

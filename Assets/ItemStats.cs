@@ -35,6 +35,7 @@ public class ItemStats : MonoBehaviour
     public int scoreWhenTierUp;
     public int scoreWhenAbsorb;
 
+    [SerializeField]
     private GameController gCont;
 
 
@@ -106,7 +107,7 @@ public class ItemStats : MonoBehaviour
         if (pObject.isPlaced)
         {
             GameObject tile = FindTileWithSamePosition(gCont.tiles);
-            if (Vector3.Distance(tile.transform.position, transform.position) < 0.01f)
+            if (tile != null && Vector3.Distance(tile.transform.position, transform.position) < 0.01f)
             {
                 tile.GetComponent<Tile>().gOccupier = this.gameObject;
             }
