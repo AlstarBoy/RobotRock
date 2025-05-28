@@ -11,6 +11,15 @@ public class Tile : MonoBehaviour
 
     public bool IsOccupied => currentObject != null;
 
+    private void Awake()
+    {
+        gridPosition = new Vector2Int(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.z)
+        );
+        this.name = $"Tile {this.transform.position.x} {this.transform.position.y} {this.transform.position.z}";
+    }
+
     public void SetObject(CelestialObject obj)
     {
         currentObject = obj;

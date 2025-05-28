@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 7652978875432995056}
   m_Layer: 1
   m_Name: Average Star
-  m_TagString: Untagged
+  m_TagString: Tier1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

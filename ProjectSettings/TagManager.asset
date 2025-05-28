@@ -8,11 +8,12 @@ TagManager:
   - Celestial
   - Asteroid
   - TemporalDistortions
+  - Tier1
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Tile
   - Water
   - UI
   - Ignore Light

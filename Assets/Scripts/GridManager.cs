@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// Manages the grid and provides neighbor lookup.
+/// Manages the grid and provides neighbor lookup for XZ-based tile maps.
 /// </summary>
 public class GridManager : MonoBehaviour
 {
@@ -26,7 +26,8 @@ public class GridManager : MonoBehaviour
         Tile closest = null;
         foreach (var tile in tiles.Values)
         {
-            float dist = Vector2.Distance(tile.transform.position, pos);
+            Vector2 tileXZ = new Vector2(tile.transform.position.x, tile.transform.position.z);
+            float dist = Vector2.Distance(tileXZ, pos);
             if (dist < minDist)
             {
                 minDist = dist;

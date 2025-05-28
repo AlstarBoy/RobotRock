@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Represents a celestial object with tier and merge data.
 /// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class CelestialObject : MonoBehaviour
 {
     public string objectName;
@@ -20,6 +21,11 @@ public class CelestialObject : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        // Automatically calculate grid position using XZ
+        gridPosition = new Vector2Int(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.z)
+        );
     }
 
     public void PlayMergeEffect()

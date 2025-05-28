@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class MouseMover : MonoBehaviour
 {
     [SerializeField] private Camera _cam;  // Reference to the main camera

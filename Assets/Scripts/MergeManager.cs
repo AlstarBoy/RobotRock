@@ -64,21 +64,18 @@ public class MergeManager : MonoBehaviour
         Vector2 averagePos = Vector2.zero;
         foreach (var obj in group)
         {
-            averagePos += (Vector2)obj.transform.position;
+            averagePos += new Vector2(obj.transform.position.x, obj.transform.position.z);
             obj.currentTile.Clear();
             obj.MergeInto();
         }
 
         Vector2 spawnPos = averagePos / group.Count;
-        Vector3 spawnPos3D = new Vector3(spawnPos.x, spawnPos.y, 0);
+        Vector3 spawnPos3D = new Vector3(spawnPos.x, 0, spawnPos.y);
 
-        // Spawn the new merged object at a 3D position
         GameObject newObj = ObjectPooler.Instance.SpawnFromPool("Tier" + newTier, spawnPos3D, Quaternion.identity);
         CelestialObject newCelestial = newObj.GetComponent<CelestialObject>();
         Tile newTile = GridManager.Instance.GetClosestTile(spawnPos);
         newTile.SetObject(newCelestial);
-
-        // Check for further merges
         CheckForMerge(newCelestial);
     }
 }
