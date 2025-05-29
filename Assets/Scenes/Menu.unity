@@ -829,16 +829,16 @@ MonoBehaviour:
   m_text: 'Black Holes - aborb anything smaller than it, hard to get rid of orbs.
 
 
-    Orbs
-    - do not grow or absorb, only purpose is to be absorbed.
+    Sun
+    - does not grow or absorb, only purpose is to be absorbed.
 
 
-    White Holes -
-    can grow as big as black holes but cant absorb them.
+    White Holes
+    - can grow as big as black holes but cant absorb them.
 
 
-    Galaxies - worth the
-    most points when growing.
+    Galaxies - worth
+    the most points when growing.
 
 
 '
@@ -979,7 +979,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0d08e2005d4f04449a8513f53d216227, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0fd1ee567afe1374f88e66c1ebf93995, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1882,7 +1882,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ce1a06a27f4d8034fbcf005d3240ff7f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 35bc8041a9955f04c8d954d687606726, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3837,7 +3837,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a7aa12224a68c4c489dd2f5884fe7f24, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0da8320f40c96054cb2e74f69e99ecc2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4375,7 +4375,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2aa930675b38fc441a1626d6a0f81e34, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9d9e7822a63f22d4f848b1ff9ab52ef8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
